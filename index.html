@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="ja">
+<!--
+    最終更新者：久野 朗広 Akihiro Kuno (akuno[at]md.tsukuba.ac.jp)
+-->
+
+<head>
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-29Y2VM34B3"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { dataLayer.push(arguments); }
+        gtag('js', new Date());
+
+        gtag('config', 'G-29Y2VM34B3');
+    </script>
+
+    <title>LARC-TOOLS</title>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" href="./image/larc_tools_favicon.png" type="image/png" sizes="256x256" />
+
+    <!-- OGP Meta Tags -->
+    <meta property="og:title" content="LARC-TOOLS" />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://www.md.tsukuba.ac.jp/LabAnimalResCNT/mouse-meets-computer/index.html" />
+    <meta property="og:image"
+        content="https://raw.githubusercontent.com/akikuno/LARC-TOOLS/refs/heads/main/image/larc_tools_favicon.png" />
+    <meta property="og:description" content="筑波大学生命科学動物資源センターで開発されたツール一覧を紹介しています。" />
+    <meta property="og:site_name" content="LARC-TOOLS" />
+    <meta property="og:locale" content="ja_JP" />
+
+    <!-- English OGP Meta Tags -->
+    <meta property="og:locale:alternate" content="en_US" />
+    <meta property="og:title" content="LARC-TOOLS" lang="en" />
+    <meta property="og:description"
+        content="Introducing a portfolio of tools developed by the Laboratory Animal Resource Center, University of Tsukuba."
+        lang="en" />
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="css/sanitize.css" />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=BIZ+UDPGothic&family=Poppins&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="css/style.css">
+
+    <!-- JavaScript -->
+    <script src="./js/script.js" defer></script>
+
+</head>
+
+<!-- ============================================================  -->
+
+<body>
+
+    <div class="container">
+        <header>
+            <a href="https://www.md.tsukuba.ac.jp/LabAnimalResCNT/mouse-meets-computer/index.html"
+                style="color: #f7f7f7">
+                <img src="./image/header-mouse-meets-computer.png" alt="LARC-TOOLS" class="header-image">
+            </a>
+        </header>
+
+        <p>
+            <a class="text-link" href="https://www.md.tsukuba.ac.jp/LabAnimalResCNT/"
+                target="_blank">筑波大学生命科学動物資源センター</a>では、遺伝子改変動物を用いた研究を支援するツールの開発に取り組んでいます。
+            <br />
+            <a class="text-link" href="https://www.md.tsukuba.ac.jp/LabAnimalResCNT/public_E/index.html"
+                target="_blank">Laboratory Animal Resource Center, University of Tsukuba</a>
+            is working on developing software to support research using genetically modified animals.
+        </p>
+
+        <div class="tab">
+            <button class="tablinks" onclick="openTab(event, 'Tools')">💻開発ツール Tools</button>
+            <button class="tablinks" onclick="openTab(event, 'News')">📢新着情報 News</button>
+            <button class="tablinks" onclick="openTab(event, 'Members')">🤝メンバー Members</button>
+            <button class="tablinks" onclick="openTab(event, 'Publications')">📄論文 Publications</button>
+            <button class="tablinks" onclick="openTab(event, 'Links')">🔗関連リンク Related Links</button>
+        </div>
+
+        <!--  ================================================== -->
+        <!--  ツール一覧 -->
+        <!--  ================================================== -->
+
+        <div id="Tools" class="tabcontent">
+            <h1 id="tools">💻開発ツール Tools</h1>
+            <ul>
+                <div id="tools-html"></div>
+            </ul>
+        </div>
+
+        <!--  ================================================== -->
+        <!--  新着情報 -->
+        <!--  ================================================== -->
+
+        <div id="News" class="tabcontent">
+            <h1 id="news">📢新着情報 News</h1>
+            <ul class="scrollable-list">
+                <li>
+                    <div id="news-html"></div>
+                </li>
+            </ul>
+        </div>
+
+        <!--  ================================================== -->
+        <!--  メンバー -->
+        <!--  ================================================== -->
+
+        <div id="Members" class="tabcontent">
+            <h1 id="members">🤝メンバー Members </h1>
+            <div id="members-html"></div>
+        </div>
+
+        <!--  ================================================== -->
+        <!--  論文 -->
+        <!--  ================================================== -->
+
+        <div id="Publications" class="tabcontent">
+            <h1 id="publications">📄論文 Publications </h1>
+            <ul class="scrollable-list">
+                <li>
+                    <div id="publications-html"></div>
+                </li>
+            </ul>
+        </div>
+
+        <!--  ================================================== -->
+        <!--  関連リンク -->
+        <!--  ================================================== -->
+
+        <div id="Links" class="tabcontent">
+            <h1 id="related-links">🔗関連リンク Related Links </h1>
+            <div id="links-html"></div>
+        </div>
+
+        <!--  ================================================== -->
+        <footer>
+            <p>&copy; 2024 Laboratory Animal Resource Center, University of Tsukuba</p>
+            <a class="pagetop" href="#">
+                <div class="pagetop_arrow"></div>
+            </a>
+        </footer>
+    </div>
+
+
+</body>
+
+</html>
