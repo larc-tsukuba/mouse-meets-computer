@@ -43,6 +43,8 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=BIZ+UDPGothic&family=Poppins&display=swap" rel="stylesheet">
 
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+
     <link rel="stylesheet" href="css/style.css">
 
     <!-- JavaScript -->
@@ -71,11 +73,16 @@
         </p>
 
         <div class="tab">
-            <button class="tablinks" onclick="openTab(event, 'Tools')">💻開発ツール Tools</button>
-            <button class="tablinks" onclick="openTab(event, 'News')">📢新着情報 News</button>
-            <button class="tablinks" onclick="openTab(event, 'Members')">🤝メンバー Members</button>
-            <button class="tablinks" onclick="openTab(event, 'Publications')">📄論文 Publications</button>
-            <button class="tablinks" onclick="openTab(event, 'Links')">🔗関連リンク Related Links</button>
+            <button class="tablinks" onclick="openTab(event, 'Tools')"><i class="fa-solid fa-display"></i> 開発ツール
+                Tools</button>
+            <button class="tablinks" onclick="openTab(event, 'News')"><i class="fa-regular fa-message"></i> 新着情報
+                News</button>
+            <button class="tablinks" onclick="openTab(event, 'Members')"><i class="fa-regular fa-handshake"></i> メンバー
+                Members</button>
+            <button class="tablinks" onclick="openTab(event, 'Publications')"><i class="fa-regular fa-newspaper"></i> 論文
+                Publications</button>
+            <button class="tablinks" onclick="openTab(event, 'Links')"><i class="fa-solid fa-link"></i> 関連リンク
+                Links</button>
         </div>
 
         <!--  ================================================== -->
@@ -83,7 +90,7 @@
         <!--  ================================================== -->
 
         <div id="Tools" class="tabcontent">
-            <h1 id="tools">💻開発ツール Tools</h1>
+            <h2 id="tools"><i class="fa-solid fa-display"></i> 開発ツール Tools</h2>
             <ul>
                 <div id="tools-html"></div>
             </ul>
@@ -94,7 +101,7 @@
         <!--  ================================================== -->
 
         <div id="News" class="tabcontent">
-            <h1 id="news">📢新着情報 News</h1>
+            <h2 id="news"><i class="fa-regular fa-message"></i> 新着情報 News</h2>
             <ul class="scrollable-list">
                 <li>
                     <div id="news-html"></div>
@@ -107,7 +114,7 @@
         <!--  ================================================== -->
 
         <div id="Members" class="tabcontent">
-            <h1 id="members">🤝メンバー Members </h1>
+            <h2 id="members"><i class="fa-regular fa-handshake"></i> メンバー Members </h2>
             <div id="members-html"></div>
         </div>
 
@@ -116,7 +123,7 @@
         <!--  ================================================== -->
 
         <div id="Publications" class="tabcontent">
-            <h1 id="publications">📄論文 Publications </h1>
+            <h2 id="publications"><i class="fa-regular fa-newspaper"></i> 論文 Publications </h2>
             <ul class="scrollable-list">
                 <li>
                     <div id="publications-html"></div>
@@ -129,7 +136,7 @@
         <!--  ================================================== -->
 
         <div id="Links" class="tabcontent">
-            <h1 id="related-links">🔗関連リンク Related Links </h1>
+            <h2 id="related-links"><i class="fa-solid fa-link"></i> 関連リンク Links </h2>
             <div id="links-html"></div>
         </div>
 
