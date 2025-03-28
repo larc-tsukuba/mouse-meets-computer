@@ -426,9 +426,15 @@ a {
     .tab button {
         flex: 0 0 auto;
         width: auto;
-        font-size: 0.8em;
         padding: 1em 0em;
         white-space: nowrap;
+        font-size: 0;
+        min-width: 40px;
+        min-height: 40px;
+    }
+
+    .tab button i {
+        font-size: 18px;
     }
 
     /* ================================================= */
