@@ -124,18 +124,19 @@ a {
 /* ================================================= */
 
 .tab {
-    background-color: #fff;
-    border: 2px solid #ddd;
-    border-radius: 10px;
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
+
+    display: flex;
+    justify-content: space-between;
     gap: 10px;
-    justify-content: center;
     padding: 10px;
     margin-bottom: 20px;
+    flex-wrap: wrap;
 }
 
 .tab button {
+    flex: 1;
+    /* 各ボタンを均等に伸ばす */
+    text-align: center;
     font-size: 18px;
     color: #333;
     background-color: #fff;
@@ -144,6 +145,7 @@ a {
     padding: 14px 20px;
     transition: background-color 0.3s, color 0.3s, box-shadow 0.3s, border-color 0.3s;
     border-radius: 10px;
+    min-width: 120px;
 }
 
 .tab button:hover {
@@ -335,14 +337,27 @@ a {
 /* レスポンシブデザイン */
 /* ================================================= */
 
-/* デフォルト（PC用）のサイズ */
-.responsive {
+/* ツールロゴのデフォルトの大きさ */
+.responsive-image {
     width: 80%;
 }
 
-/* スマートフォン用のサイズ */
 @media (max-width: 600px) {
-    .responsive {
+    body {
+        font-size: 1em;
+        width: 100%;
+        flex-direction: column;
+        align-items: center;
+        margin: auto;
+    }
+
+    .container {
+        width: 90%;
+        margin: 0 auto;
+        padding: 0 15px;
+    }
+
+    .responsive-image {
         width: 100%;
         margin: auto;
         display: block;
@@ -352,10 +367,12 @@ a {
     /* リンクボタン */
     /* ================================================= */
     .link-button {
-        display: block;
-        text-align: center;
+        display: flex;
         flex-direction: column;
         align-items: center;
+        gap: 10px;
+        text-align: center;
+        margin-bottom: 20px;
     }
 
 
@@ -375,38 +392,46 @@ a {
 
 
     /* ================================================= */
-    /* 「タブ」を3列ではなく、1列に表示ためのCSS */
+    /* タブをスマホでも横並びにする */
     /* ================================================= */
     .tab {
-        grid-template-columns: 1fr;
+        display: flex;
+        flex-wrap: nowrap;
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+        gap: 8px;
+    }
+
+    .tab button {
+        flex: 0 0 auto;
+        width: auto;
+        font-size: 0.8em;
+        padding: 1em 0em;
+        white-space: nowrap;
     }
 
     /* ================================================= */
     /* 「ツール一覧」を左右分割表示ではなく、一列に表示ためのCSS */
     /* ================================================= */
     .tool-item {
-        display: block;
-        /* グリッドをオフにしてブロック表示に */
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-items: center;
+        margin-bottom: 20px;
         padding: 20px;
-        /* 必要に応じてパディングを再設定 */
-    }
-
-    .tool-description,
-    .tool-buttons {
-        grid-column: auto;
-        /* グリッドの設定をリセット */
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+        border-radius: 10px;
+        background-color: #fff;
     }
 
     .tool-buttons {
         padding-left: 0;
-        /* スマートフォン表示では左のパディングをリセット */
     }
 
     .scrollable-list {
         overflow-y: hidden;
-        height: auto;
         /* Newsのスクロール付をオフにする */
+        height: auto;
     }
-
-
 }
