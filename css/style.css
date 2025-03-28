@@ -405,6 +405,7 @@ a {
     }
 
     .link-button a {
+        font-size: 0.9em;
         width: 90%;
         max-width: 300px;
         display: block;
