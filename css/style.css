@@ -114,9 +114,10 @@ a {
 /* ================================================= */
 
 .header-image {
-    width: 100%;
+    width: 90%;
     height: auto;
     display: block;
+    margin: 0 auto;
 }
 
 /* ================================================= */
@@ -145,7 +146,7 @@ a {
     padding: 14px 20px;
     transition: background-color 0.3s, color 0.3s, box-shadow 0.3s, border-color 0.3s;
     border-radius: 10px;
-    min-width: 120px;
+    min-width: 100px;
     position: relative;
     /* 三角形を表示するために必要 */
 }
@@ -201,7 +202,8 @@ a {
 
 .link-button a {
     font-size: 1.1em;
-    border: 2px solid #DDD;
+    background-color: #fff;
+    border: 2px solid #777;
     border-radius: 15px;
     text-decoration: none;
     padding: 15px 20px;
