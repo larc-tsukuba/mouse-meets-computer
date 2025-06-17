@@ -122,34 +122,45 @@ a {
 }
 
 /* ================================================= */
-/* タブボタン */
+/* タブ（常に横一列、wrapなし、スクロール可能） */
 /* ================================================= */
-
 .tab {
-
     display: flex;
-    justify-content: space-between;
+    /* 折り返さない */
+    flex-wrap: nowrap;
+    /* 横スクロール可能 */
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
     gap: 10px;
     padding: 10px;
     margin-bottom: 20px;
-    flex-wrap: wrap;
+    justify-content: center;
+
+    /* Firefox用: スクロールバー非表示 */
+    scrollbar-width: none;
+}
+
+.tab::-webkit-scrollbar {
+    /* Chrome/Safari用: スクロールバー非表示 */
+    display: none;
 }
 
 .tab button {
-    flex: 1;
-    /* 各ボタンを均等に伸ばす */
-    text-align: center;
+    /* 幅を自動にして折り返さない */
+    flex: 0 0 auto;
+    /* テキスト折返し防止 */
+    white-space: nowrap;
+    min-width: 100px;
+    padding: 14px 20px;
     font-size: 18px;
+    text-align: center;
     color: #333;
     background-color: #fff;
     border: 2px solid #ddd;
-    cursor: pointer;
-    padding: 14px 20px;
-    transition: background-color 0.3s, color 0.3s, box-shadow 0.3s, border-color 0.3s;
     border-radius: 10px;
-    min-width: 100px;
+    cursor: pointer;
+    transition: background-color 0.3s, color 0.3s, box-shadow 0.3s, border-color 0.3s;
     position: relative;
-    /* 三角形を表示するために必要 */
 }
 
 .tab button:hover {
@@ -167,16 +178,13 @@ a {
     content: '';
     position: absolute;
     bottom: -10px;
-    /* 三角形をボタンの外側に */
     left: 50%;
     transform: translateX(-50%);
     width: 0;
     height: 0;
     border-style: solid;
     border-width: 10px 10px 0 10px;
-    /* 下向き三角形 */
     border-color: #ff9d00 transparent transparent transparent;
-    /* タブの色と合わせる */
     z-index: 2;
 }
 
