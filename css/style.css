@@ -110,8 +110,8 @@ h3 {
     background: var(--bg-primary);
     border-bottom: 1px solid rgba(239, 131, 0, 0.3);
     padding: var(--spacing-2xl) var(--spacing-lg);
-    margin: -2rem -2rem var(--spacing-2xl) -2rem;
-    border-radius: 0 0 var(--border-radius-xl) var(--border-radius-xl);
+    margin: var(--spacing-2xl) 0 var(--spacing-2xl) 0;
+    border-radius: var(--border-radius-xl);
     box-shadow: var(--shadow-sm);
     position: relative;
     overflow: hidden;
@@ -145,13 +145,13 @@ h3 {
 
 .hero-text, .hero-text-en {
     color: var(--text-primary);
-    font-size: 1.1rem;
+    font-size: 1.3rem;
     line-height: 1.6;
     margin-bottom: var(--spacing-md);
 }
 
 .hero-text-en {
-    font-size: 1rem;
+    font-size: 1.2rem;
     color: var(--text-secondary);
 }
 
@@ -736,7 +736,7 @@ a {
     }
 
     .hero-section {
-        margin: -1rem -1rem var(--spacing-xl) -1rem;
+        margin: var(--spacing-lg) var(--spacing-sm) var(--spacing-xl) var(--spacing-sm);
         padding: var(--spacing-xl) var(--spacing-md);
     }
 
