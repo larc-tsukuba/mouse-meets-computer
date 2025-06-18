@@ -410,7 +410,11 @@ a {
     text-decoration: none;
     padding: var(--spacing-md) var(--spacing-lg);
     text-align: center;
-    white-space: nowrap;
+    white-space: normal;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    hyphens: auto;
+    max-width: 100%;
     transition: all 0.2s ease;
     box-shadow: var(--shadow-sm);
 }
