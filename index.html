@@ -62,96 +62,135 @@
 <body>
 
     <div class="container">
-        <header>
-            <a href="https://larc-tsukuba.github.io/mouse-meets-computer/" style="color: #f7f7f7">
-                <img src="./image/header-mouse-meets-computer.png" alt="LARC-Tools" class="header-image">
-            </a>
+        <header class="hero-section">
+            <div class="hero-content">
+                <a href="https://larc-tsukuba.github.io/mouse-meets-computer/" class="logo-link">
+                    <img src="./image/header-mouse-meets-computer.png" alt="LARC-Tools" class="header-image">
+                </a>
+                <div class="hero-description">
+                    <p class="hero-text">
+                        <a class="text-link" href="https://www.md.tsukuba.ac.jp/LabAnimalResCNT/"
+                            target="_blank">筑波大学生命科学動物資源センター</a>では、<span class="no-break">遺伝子改変動物を用いた研究を支援するツールの開発に取り組んでいます。</span>
+                    </p>
+                    <p class="hero-text-en">
+                        <a class="text-link" href="https://www.md.tsukuba.ac.jp/LabAnimalResCNT/public_E/index.html"
+                            target="_blank">Laboratory Animal Resource Center, University of Tsukuba</a>
+                        is working on developing software to support research using genetically modified animals.
+                    </p>
+                </div>
+                <div class="cta-section">
+                    <a href="https://drive.google.com/file/d/1CHcBtco8UkFQY6l95kYj4eUQoZL8bNQ6/preview" target="_blank" class="cta-button">
+                        <i class="fa-regular fa-circle-play"></i>
+                        <span>研究紹介動画</span>
+                    </a>
+                </div>
+            </div>
         </header>
 
-        <p>
-            <a class="text-link" href="https://www.md.tsukuba.ac.jp/LabAnimalResCNT/"
-                target="_blank">筑波大学生命科学動物資源センター</a>では、遺伝子改変動物を用いた研究を支援するツールの開発に取り組んでいます。
-            <br />
-            <a class="text-link" href="https://www.md.tsukuba.ac.jp/LabAnimalResCNT/public_E/index.html"
-                target="_blank">Laboratory Animal Resource Center, University of Tsukuba</a>
-            is working on developing software to support research using genetically modified animals.
-        </p>
-
-        <div class="link-button">
-            <a href="https://drive.google.com/file/d/1CHcBtco8UkFQY6l95kYj4eUQoZL8bNQ6/preview" target="_blank">
-                <i class="fa-regular fa-circle-play"></i>
-                研究紹介動画
-            </a>
-        </div>
-
-        <div class="tab">
-            <!-- <button class="tablinks" onclick="openTab(event, 'Home')"><i class="fa-solid fa-house"></i>
-                Home</button> -->
-            <button class="tablinks" onclick="openTab(event, 'Tools')"><i class="fa-solid fa-laptop-code"></i>
-                Tools</button>
-            <button class="tablinks" onclick="openTab(event, 'News')"><i class="fa-regular fa-message"></i>
-                News</button>
-            <button class="tablinks" onclick="openTab(event, 'Members')"><i class="fa-regular fa-handshake"></i>
-                Members</button>
-            <button class="tablinks" onclick="openTab(event, 'Publications')"><i class="fa-regular fa-newspaper"></i>
-                Publications</button>
-            <button class="tablinks" onclick="openTab(event, 'Links')"><i class="fa-solid fa-link"></i> Links</button>
-        </div>
+        <nav class="main-navigation">
+            <div class="tab-container">
+                <button class="tablinks modern-tab" onclick="openTab(event, 'Tools')">
+                    <i class="fa-solid fa-laptop-code"></i>
+                    <span class="tab-text">Tools</span>
+                </button>
+                <button class="tablinks modern-tab" onclick="openTab(event, 'News')">
+                    <i class="fa-regular fa-message"></i>
+                    <span class="tab-text">News</span>
+                </button>
+                <button class="tablinks modern-tab" onclick="openTab(event, 'Members')">
+                    <i class="fa-regular fa-handshake"></i>
+                    <span class="tab-text">Members</span>
+                </button>
+                <button class="tablinks modern-tab" onclick="openTab(event, 'Publications')">
+                    <i class="fa-regular fa-newspaper"></i>
+                    <span class="tab-text">Publications</span>
+                </button>
+                <button class="tablinks modern-tab" onclick="openTab(event, 'Links')">
+                    <i class="fa-solid fa-link"></i>
+                    <span class="tab-text">Links</span>
+                </button>
+            </div>
+        </nav>
 
         <!--  ================================================== -->
         <!--  ツール一覧 -->
         <!--  ================================================== -->
 
-        <div id="Tools" class="tabcontent">
-            <h2 id="tools"><i class="fa-solid fa-laptop-code"></i> 開発ツール Tools</h2>
-            <ul>
-                <div id="tools-html"></div>
-            </ul>
-        </div>
+        <main class="content-sections">
+            <section id="Tools" class="tabcontent modern-section">
+                <div class="section-header">
+                    <h2 id="tools" class="section-title">
+                        <i class="fa-solid fa-laptop-code"></i>
+                        <span>開発ツール Tools</span>
+                    </h2>
+                </div>
+                <div class="content-grid">
+                    <div id="tools-html"></div>
+                </div>
+            </section>
 
         <!--  ================================================== -->
         <!--  新着情報 -->
         <!--  ================================================== -->
 
-        <div id="News" class="tabcontent">
-            <h2 id="news"><i class="fa-regular fa-message"></i> 新着情報 News</h2>
-            <ul class="scrollable-list">
-                <li>
+            <section id="News" class="tabcontent modern-section">
+                <div class="section-header">
+                    <h2 id="news" class="section-title">
+                        <i class="fa-regular fa-message"></i>
+                        <span>新着情報 News</span>
+                    </h2>
+                </div>
+                <div class="news-container">
                     <div id="news-html"></div>
-                </li>
-            </ul>
-        </div>
+                </div>
+            </section>
 
         <!--  ================================================== -->
         <!--  メンバー -->
         <!--  ================================================== -->
 
-        <div id="Members" class="tabcontent">
-            <h2 id="members"><i class="fa-regular fa-handshake"></i> メンバー Members </h2>
-            <div id="members-html"></div>
-        </div>
+            <section id="Members" class="tabcontent modern-section">
+                <div class="section-header">
+                    <h2 id="members" class="section-title">
+                        <i class="fa-regular fa-handshake"></i>
+                        <span>メンバー Members</span>
+                    </h2>
+                </div>
+                <div class="members-grid">
+                    <div id="members-html"></div>
+                </div>
+            </section>
 
         <!--  ================================================== -->
         <!--  論文 -->
         <!--  ================================================== -->
 
-        <div id="Publications" class="tabcontent">
-            <h2 id="publications"><i class="fa-regular fa-newspaper"></i> 論文 Publications </h2>
-            <ul class="scrollable-list">
-                <li>
+            <section id="Publications" class="tabcontent modern-section">
+                <div class="section-header">
+                    <h2 id="publications" class="section-title">
+                        <i class="fa-regular fa-newspaper"></i>
+                        <span>論文 Publications</span>
+                    </h2>
+                </div>
+                <div class="publications-container">
                     <div id="publications-html"></div>
-                </li>
-            </ul>
-        </div>
+                </div>
+            </section>
 
         <!--  ================================================== -->
         <!--  関連リンク -->
         <!--  ================================================== -->
 
-        <div id="Links" class="tabcontent">
-            <h2 id="related-links"><i class="fa-solid fa-link"></i> 関連リンク Links </h2>
-            <div id="links-html"></div>
-        </div>
+            <section id="Links" class="tabcontent modern-section">
+                <div class="section-header">
+                    <h2 id="related-links" class="section-title">
+                        <i class="fa-solid fa-link"></i>
+                        <span>関連リンク Links</span>
+                    </h2>
+                </div>
+                <div id="links-html"></div>
+            </section>
+        </main>
 
         <!--  ================================================== -->
         <footer>
