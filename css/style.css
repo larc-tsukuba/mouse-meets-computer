@@ -108,11 +108,8 @@ h3 {
 /* ================================================= */
 .hero-section {
     background: var(--bg-primary);
-    border-bottom: 1px solid rgba(239, 131, 0, 0.3);
     padding: var(--spacing-2xl) var(--spacing-lg);
     margin: var(--spacing-2xl) 0 var(--spacing-2xl) 0;
-    border-radius: var(--border-radius-xl);
-    box-shadow: var(--shadow-sm);
     position: relative;
     overflow: hidden;
 }
@@ -505,29 +502,9 @@ a {
 /* ニュースセクション */
 /* ================================================= */
 .news-container {
-    max-height: 800px;
-    overflow-y: auto;
     padding-right: var(--spacing-sm);
-    scrollbar-width: thin;
-    scrollbar-color: var(--text-light) transparent;
 }
 
-.news-container::-webkit-scrollbar {
-    width: 6px;
-}
-
-.news-container::-webkit-scrollbar-track {
-    background: transparent;
-}
-
-.news-container::-webkit-scrollbar-thumb {
-    background: #e0e0e0;
-    border-radius: 3px;
-}
-
-.news-container::-webkit-scrollbar-thumb:hover {
-    background: rgba(239, 131, 0, 0.3);
-}
 
 .news-container li {
     margin-bottom: var(--spacing-lg);
@@ -546,25 +523,9 @@ a {
 }
 
 .publications-container {
-    max-height: 800px;
-    overflow-y: auto;
     padding-right: var(--spacing-sm);
-    scrollbar-width: thin;
-    scrollbar-color: var(--text-light) transparent;
 }
 
-.publications-container::-webkit-scrollbar {
-    width: 6px;
-}
-
-.publications-container::-webkit-scrollbar-track {
-    background: transparent;
-}
-
-.publications-container::-webkit-scrollbar-thumb {
-    background: #e0e0e0;
-    border-radius: 3px;
-}
 
 .publications-container li {
     margin-bottom: var(--spacing-lg);
@@ -805,10 +766,6 @@ a {
         grid-template-columns: 1fr;
     }
 
-    .news-container,
-    .publications-container {
-        max-height: 600px;
-    }
 
     .pagetop {
         height: 50px;
