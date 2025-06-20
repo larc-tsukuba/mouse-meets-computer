@@ -70,7 +70,8 @@
                 <div class="hero-description">
                     <p class="hero-text">
                         <a class="text-link" href="https://www.md.tsukuba.ac.jp/LabAnimalResCNT/"
-                            target="_blank">筑波大学生命科学動物資源センター</a>では、<span class="no-break">遺伝子改変動物を用いた研究を支援するツールの開発に取り組んでいます。</span>
+                            target="_blank">筑波大学生命科学動物資源センター</a>では、<span
+                            class="no-break">遺伝子改変動物を用いた研究を支援するツールの開発に取り組んでいます。</span>
                     </p>
                     <p class="hero-text-en">
                         <a class="text-link" href="https://www.md.tsukuba.ac.jp/LabAnimalResCNT/public_E/index.html"
@@ -79,7 +80,8 @@
                     </p>
                 </div>
                 <div class="cta-section">
-                    <a href="https://drive.google.com/file/d/1CHcBtco8UkFQY6l95kYj4eUQoZL8bNQ6/preview" target="_blank" class="cta-button">
+                    <a href="https://drive.google.com/file/d/1CHcBtco8UkFQY6l95kYj4eUQoZL8bNQ6/preview" target="_blank"
+                        class="cta-button">
                         <i class="fa-regular fa-circle-play"></i>
                         <span>研究紹介動画</span>
                     </a>
@@ -89,6 +91,10 @@
 
         <nav class="main-navigation">
             <div class="tab-container">
+                <button class="tablinks modern-tab" onclick="openTab(event, 'Home')">
+                    <i class="fa-solid fa-home"></i>
+                    <span class="tab-text">Home</span>
+                </button>
                 <button class="tablinks modern-tab" onclick="openTab(event, 'Tools')">
                     <i class="fa-solid fa-laptop-code"></i>
                     <span class="tab-text">Tools</span>
@@ -113,10 +119,108 @@
         </nav>
 
         <!--  ================================================== -->
-        <!--  ツール一覧 -->
+        <!--  コンテンツセクション -->
         <!--  ================================================== -->
 
         <main class="content-sections">
+            <!-- Homeタブ（研究紹介） -->
+            <section id="Home" class="tabcontent modern-section">
+                <div class="research-content">
+                    <h2 class="research-title">
+                        <i class="fa-solid fa-microscope"></i>
+                        <span>研究紹介 Research Overview</span>
+                    </h2>
+                    <div class="research-description">
+                        <p class="research-text">
+                            遺伝子改変マウスの作製プロセスは、標的遺伝子の選択から遺伝型解析まで多段階にわたります。私たちは各段階で研究者をサポートするツールを開発し、研究の効率化と信頼性向上に貢献しています。
+                        </p>
+                        <p class="research-text-en">
+                            The process of creating genetically modified mice spans multiple stages from target gene selection to genotyping. We develop tools to support researchers at each stage, contributing to improved research efficiency and reliability.
+                        </p>
+                    </div>
+
+                    <div class="research-diagram">
+                        <div class="interactive-diagram">
+                            <div class="process-flow">
+                                <!-- プロセスフロー -->
+                                <div class="process-stage">
+                                    <div class="step-number">Step 1</div>
+                                    <div class="stage-header">
+                                        <div class="header-jp">標的遺伝子選択</div>
+                                        <div class="header-en">Select Target Genes</div>
+                                    </div>
+                                    <div class="stage-content">
+                                        <div class="tool-item clickable-tool" data-tool="tsumugi"
+                                            data-section="tsumugi">
+                                            <img src="https://raw.githubusercontent.com/akikuno/tsumugi/main/image/tsumugi-logo.jpg"
+                                                alt="TSUMUGI" class="tool-icon">
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="flow-arrow">→</div>
+
+                                <div class="process-stage">
+                                    <div class="step-number">Step 2</div>
+                                    <div class="stage-header">
+                                        <div class="header-jp">ゲノム編集設計</div>
+                                        <div class="header-en">Genome Editing Design</div>
+                                    </div>
+                                    <div class="stage-content">
+                                        <div class="tool-item clickable-tool" data-tool="konezumi"
+                                            data-section="KOnezumi">
+                                            <img src="https://raw.githubusercontent.com/akikuno/logos/main/KOnezumi/KOnezumi-logo.png"
+                                                alt="KOnezumi" class="tool-icon">
+                                        </div>
+                                        <div class="tool-item clickable-tool" data-tool="konezumi-aid"
+                                            data-section="KOnezumi-AID">
+                                            <img src="https://github.com/larc-tsukuba/mouse-meets-computer/blob/main/image/logo-konezumiaid.png?raw=true"
+                                                alt="KOnezumi-AID" class="tool-icon">
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="flow-arrow">→</div>
+
+                                <div class="process-stage">
+                                    <div class="step-number">Step 3</div>
+                                    <div class="stage-header">
+                                        <div class="header-jp">ゲノム編集</div>
+                                        <div class="header-en">Genome Editing</div>
+                                    </div>
+                                    <div class="stage-content">
+                                        <div class="genome-editing-icon non-clickable">
+                                            <i class="fa-solid fa-dna"></i>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="flow-arrow">→</div>
+
+                                <div class="process-stage">
+                                    <div class="step-number">Step 4</div>
+                                    <div class="stage-header">
+                                        <div class="header-jp">遺伝型解析</div>
+                                        <div class="header-en">Genotyping</div>
+                                    </div>
+                                    <div class="stage-content">
+                                        <div class="tool-item clickable-tool" data-tool="dajin2" data-section="DAJIN2">
+                                            <img src="https://raw.githubusercontent.com/akikuno/logos/main/DAJIN2/DAJIN2-logo-drjekyll-trim.png"
+                                                alt="DAJIN2" class="tool-icon">
+                                        </div>
+                                        <div class="tool-item clickable-tool" data-tool="cstag" data-section="cstag">
+                                            <img src="https://raw.githubusercontent.com/akikuno/logos/main/cstag/cstag-logo-microgramma.png"
+                                                alt="cstag" class="tool-icon">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Toolsタブ -->
             <section id="Tools" class="tabcontent modern-section">
                 <div class="section-header">
                     <h2 id="tools" class="section-title">
@@ -129,9 +233,9 @@
                 </div>
             </section>
 
-        <!--  ================================================== -->
-        <!--  新着情報 -->
-        <!--  ================================================== -->
+            <!--  ================================================== -->
+            <!--  新着情報 -->
+            <!--  ================================================== -->
 
             <section id="News" class="tabcontent modern-section">
                 <div class="section-header">
@@ -145,9 +249,9 @@
                 </div>
             </section>
 
-        <!--  ================================================== -->
-        <!--  メンバー -->
-        <!--  ================================================== -->
+            <!--  ================================================== -->
+            <!--  メンバー -->
+            <!--  ================================================== -->
 
             <section id="Members" class="tabcontent modern-section">
                 <div class="section-header">
@@ -161,9 +265,9 @@
                 </div>
             </section>
 
-        <!--  ================================================== -->
-        <!--  論文 -->
-        <!--  ================================================== -->
+            <!--  ================================================== -->
+            <!--  論文 -->
+            <!--  ================================================== -->
 
             <section id="Publications" class="tabcontent modern-section">
                 <div class="section-header">
@@ -177,9 +281,9 @@
                 </div>
             </section>
 
-        <!--  ================================================== -->
-        <!--  関連リンク -->
-        <!--  ================================================== -->
+            <!--  ================================================== -->
+            <!--  関連リンク -->
+            <!--  ================================================== -->
 
             <section id="Links" class="tabcontent modern-section">
                 <div class="section-header">

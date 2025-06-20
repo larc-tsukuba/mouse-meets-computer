@@ -76,7 +76,7 @@ function openTab(evt, tabName) {
 document.addEventListener("DOMContentLoaded", function () {
     // URLのハッシュを取得
     var hash = window.location.hash.slice(1); // "#" を除去
-    var validTabs = ["tools", "news", "members", "publications", "links"]; // 有効なタブID
+    var validTabs = ["home", "tools", "news", "members", "publications", "links"]; // 有効なタブID
 
     // ハッシュが有効なタブIDの場合のみ適用
     if (validTabs.includes(hash)) {
@@ -89,16 +89,16 @@ document.addEventListener("DOMContentLoaded", function () {
         // スクロール位置をトップにリセット
         setTimeout(() => window.scrollTo(0, 0), 0);
     } else {
-        // デフォルトタブを表示
-        document.getElementById("Tools").style.display = "block";
-        document.querySelector(`.tablinks[onclick*="Tools"]`).className += " active";
+        // デフォルトタブを表示（Homeタブ）
+        document.getElementById("Home").style.display = "block";
+        document.querySelector(`.tablinks[onclick*="Home"]`).className += " active";
     }
 });
 
 // ハッシュ変更時の処理
 window.addEventListener("hashchange", function () {
     var hash = window.location.hash.slice(1); // "#" を除去
-    var validTabs = ["tools", "news", "members", "publications", "links"]; // 有効なタブID
+    var validTabs = ["home", "tools", "news", "members", "publications", "links"]; // 有効なタブID
 
     // ハッシュが有効なタブIDの場合のみ適用
     if (validTabs.includes(hash)) {
@@ -107,5 +107,62 @@ window.addEventListener("hashchange", function () {
         // スクロール位置をトップにリセット
         window.scrollTo(0, 0);
     }
+});
+
+// ############################################################
+// インタラクティブ図のツールクリック機能
+// ############################################################
+
+// DOMが読み込まれた後にイベントリスナーを追加
+document.addEventListener("DOMContentLoaded", function () {
+    // 少し遅延を入れてHTMLが確実に読み込まれるのを待つ
+    setTimeout(() => {
+        // クリック可能なツールアイテムにイベントリスナーを追加
+        const clickableTools = document.querySelectorAll('.clickable-tool');
+        
+        clickableTools.forEach(tool => {
+            tool.addEventListener('click', function() {
+                const sectionId = this.getAttribute('data-section');
+                
+                if (sectionId) {
+                    // Toolsタブを開く
+                    openTab(null, 'Tools');
+                    
+                    // 少し遅延してからスクロール
+                    setTimeout(() => {
+                        const targetElement = document.getElementById(sectionId);
+                        if (targetElement) {
+                            targetElement.scrollIntoView({ 
+                                behavior: 'smooth',
+                                block: 'center'
+                            });
+                            
+                            // ハイライト効果を追加
+                            targetElement.style.transition = 'all 0.3s ease';
+                            targetElement.style.transform = 'scale(1.02)';
+                            targetElement.style.boxShadow = '0 8px 25px rgba(239, 131, 0, 0.3)';
+                            
+                            // 2秒後にハイライトを解除
+                            setTimeout(() => {
+                                targetElement.style.transform = 'scale(1)';
+                                targetElement.style.boxShadow = '';
+                            }, 2000);
+                        }
+                    }, 300);
+                }
+            });
+            
+            // ホバー効果の追加フィードバック
+            tool.addEventListener('mouseenter', function() {
+                const sectionId = this.getAttribute('data-section');
+                
+                if (sectionId) {
+                    this.style.cursor = 'pointer';
+                    // タイトル属性を追加してツールチップ表示
+                    this.setAttribute('title', `${sectionId}の詳細を見る`);
+                }
+            });
+        });
+    }, 500);
 });
 

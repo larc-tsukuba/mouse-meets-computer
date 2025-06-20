@@ -54,7 +54,7 @@ body {
     padding: 0;
     color: var(--text-primary);
     background: linear-gradient(135deg, #ffffff 0%, #fafafa 100%);
-    font-size: 1.1rem;
+    font-size: 1.2rem;
     line-height: 1.7;
     min-height: 100vh;
 }
@@ -77,16 +77,16 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 h1 {
-    font-size: clamp(2rem, 5vw, 3.5rem);
+    font-size: clamp(2.2rem, 5vw, 3.8rem);
     color: var(--text-primary);
 }
 
 h2 {
-    font-size: clamp(1.5rem, 4vw, 2.5rem);
+    font-size: clamp(1.7rem, 4vw, 2.8rem);
 }
 
 h3 {
-    font-size: clamp(1.25rem, 3vw, 1.75rem);
+    font-size: clamp(1.4rem, 3vw, 2rem);
 }
 
 .section-title {
@@ -202,6 +202,10 @@ footer {
     position: sticky;
     top: var(--spacing-md);
     z-index: 100;
+    max-width: 1200px;
+    margin-left: auto;
+    margin-right: auto;
+    padding: 0 var(--spacing-lg);
 }
 
 .tab-container {
@@ -219,6 +223,472 @@ footer {
 
 .tab-container::-webkit-scrollbar {
     display: none;
+}
+
+/* ================================================= */
+/* 研究紹介セクション */
+/* ================================================= */
+.research-introduction {
+    background: var(--bg-primary);
+    margin: var(--spacing-xl) 0;
+    padding: var(--spacing-2xl);
+    border-radius: var(--border-radius-xl);
+    box-shadow: var(--shadow-lg);
+    border: 1px solid rgba(255, 255, 255, 0.8);
+    position: relative;
+    overflow: hidden;
+}
+
+.research-introduction::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 4px;
+    background: var(--accent-gradient);
+}
+
+.research-content {
+    max-width: 100%;
+    margin: 0 auto;
+}
+
+.research-title {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-md);
+    margin-bottom: var(--spacing-xl);
+    padding-bottom: var(--spacing-md);
+    border-bottom: 1px solid rgba(239, 131, 0, 0.3);
+    color: var(--text-primary);
+}
+
+.research-title i {
+    color: var(--text-accent);
+    font-size: 1.3em;
+}
+
+.research-description {
+    margin-bottom: var(--spacing-2xl);
+    text-align: center;
+}
+
+.research-text {
+    font-size: 1.3rem;
+    line-height: 1.8;
+    margin-bottom: var(--spacing-md);
+    color: var(--text-primary);
+}
+
+.research-text-en {
+    font-size: 1.2rem;
+    line-height: 1.7;
+    color: var(--text-secondary);
+    margin-bottom: 0;
+}
+
+.research-diagram {
+    margin: var(--spacing-2xl) 0;
+    text-align: center;
+}
+
+/* インタラクティブ図 */
+.interactive-diagram {
+    background: var(--bg-primary);
+    border-radius: var(--border-radius-lg);
+    padding: var(--spacing-2xl);
+    box-shadow: var(--shadow-md);
+    border: 1px solid rgba(239, 131, 0, 0.2);
+}
+
+.diagram-title {
+    text-align: center;
+    margin-bottom: var(--spacing-2xl);
+}
+
+.diagram-title h3 {
+    color: var(--text-accent);
+    font-size: 1.5rem;
+    font-weight: 600;
+    margin-bottom: var(--spacing-sm);
+}
+
+.diagram-title p {
+    color: var(--text-secondary);
+    font-size: 1rem;
+    margin: 0;
+}
+
+.process-flow {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    flex-wrap: nowrap;
+    gap: var(--spacing-xs);
+    margin: var(--spacing-2xl) 0;
+    overflow-x: auto;
+}
+
+.process-stage {
+    flex: 0 0 auto;
+    min-width: 200px;
+    background: var(--bg-secondary);
+    border-radius: var(--border-radius-md);
+    padding: var(--spacing-sm);
+    border: 2px solid rgba(239, 131, 0, 0.1);
+    transition: all 0.3s ease;
+    position: relative;
+}
+
+.step-number {
+    background: var(--text-accent);
+    color: white;
+    font-weight: 600;
+    font-size: 1rem;
+    padding: 6px 12px;
+    border-radius: var(--border-radius-sm);
+    text-align: center;
+    margin-bottom: var(--spacing-sm);
+    display: inline-block;
+}
+
+.process-stage:hover {
+    border-color: rgba(239, 131, 0, 0.3);
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-lg);
+}
+
+.stage-header {
+    text-align: center;
+    margin-bottom: var(--spacing-sm);
+    padding-bottom: var(--spacing-xs);
+    border-bottom: 2px solid var(--text-accent);
+}
+
+.header-jp {
+    font-weight: 600;
+    font-size: 0.9rem;
+    color: var(--text-primary);
+    line-height: 1.2;
+    margin-bottom: 2px;
+}
+
+.header-en {
+    font-weight: 500;
+    font-size: 0.75rem;
+    color: var(--text-secondary);
+    line-height: 1.2;
+    font-style: italic;
+}
+
+.stage-content {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-md);
+    align-items: center;
+    justify-content: center;
+}
+
+.tool-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: var(--spacing-xs);
+    padding: var(--spacing-sm);
+    border-radius: var(--border-radius-sm);
+    transition: all 0.3s ease;
+    text-align: center;
+    min-width: 120px;
+    min-height: 120px;
+}
+
+.clickable-tool {
+    cursor: pointer;
+    background: var(--bg-primary);
+    border: 2px solid transparent;
+}
+
+.clickable-tool:hover {
+    background: var(--bg-accent);
+    border-color: var(--text-accent);
+    transform: scale(1.05);
+    box-shadow: var(--shadow-accent);
+}
+
+.tool-icon {
+    width: 110px;
+    height: auto;
+    max-height: 110px;
+    object-fit: contain;
+    border-radius: var(--border-radius-sm);
+}
+
+.tool-name {
+    font-weight: 600;
+    font-size: 0.9rem;
+    color: var(--text-primary);
+}
+
+.tool-description {
+    font-size: 0.8rem;
+    color: var(--text-secondary);
+    line-height: 1.4;
+}
+
+.process-step {
+    background: var(--bg-primary);
+    padding: var(--spacing-sm) var(--spacing-md);
+    border-radius: var(--border-radius-sm);
+    font-size: 0.9rem;
+    color: var(--text-secondary);
+    border: 1px solid rgba(239, 131, 0, 0.2);
+    text-align: center;
+}
+
+.genome-editing-icon {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 90px;
+}
+
+.genome-editing-icon i {
+    font-size: 4rem;
+    color: #333;
+    opacity: 0.8;
+}
+
+.non-clickable {
+    cursor: default;
+    pointer-events: none;
+}
+
+.flow-arrow {
+    font-size: 1.2rem;
+    color: var(--text-accent);
+    font-weight: bold;
+    margin: 0 2px;
+    animation: pulse 2s infinite;
+    flex-shrink: 0;
+    align-self: center;
+}
+
+@keyframes pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.6; }
+}
+
+.diagram-footer {
+    text-align: center;
+    margin-top: var(--spacing-2xl);
+    padding-top: var(--spacing-lg);
+    border-top: 1px solid rgba(239, 131, 0, 0.2);
+}
+
+.diagram-footer p {
+    color: var(--text-secondary);
+    font-size: 0.9rem;
+    margin: var(--spacing-sm) 0;
+}
+
+.university-info p:first-child {
+    font-weight: 600;
+    color: var(--text-primary);
+}
+
+/* レスポンシブ対応 */
+@media (max-width: 1024px) {
+    .process-flow {
+        flex-direction: column;
+        gap: var(--spacing-xl);
+    }
+    
+    .flow-arrow {
+        display: none;
+    }
+    
+    .process-stage {
+        min-width: 70%;
+        max-width: 400px;
+        margin: 0 auto;
+    }
+    
+    .tool-icon {
+        width: 140px;
+        height: auto;
+        max-height: 140px;
+    }
+    
+    .tool-item {
+        min-width: 160px;
+        min-height: 160px;
+        padding: var(--spacing-lg);
+    }
+    
+    .genome-editing-icon i {
+        font-size: 5.5rem;
+    }
+}
+
+@media (max-width: 768px) {
+    .interactive-diagram {
+        padding: var(--spacing-lg);
+    }
+    
+    .diagram-title h3 {
+        font-size: 1.3rem;
+    }
+    
+    .stage-header {
+        font-size: 0.9rem;
+    }
+    
+    .tool-icon {
+        width: 120px;
+        height: auto;
+        max-height: 120px;
+    }
+    
+    .tool-item {
+        min-width: 140px;
+        min-height: 140px;
+        padding: var(--spacing-md);
+    }
+    
+    .genome-editing-icon i {
+        font-size: 5rem;
+    }
+    
+    .tool-name {
+        font-size: 0.8rem;
+    }
+    
+    .tool-description {
+        font-size: 0.7rem;
+    }
+}
+
+.tools-overview {
+    margin-top: var(--spacing-2xl);
+}
+
+.tools-section-title {
+    text-align: center;
+    margin-bottom: var(--spacing-2xl);
+    color: var(--text-primary);
+    font-size: 1.5rem;
+    font-weight: 600;
+}
+
+.tools-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: var(--spacing-xl);
+    margin-top: var(--spacing-xl);
+}
+
+.tool-card {
+    background: var(--bg-secondary);
+    border-radius: var(--border-radius-lg);
+    padding: var(--spacing-xl);
+    text-align: center;
+    box-shadow: var(--shadow-sm);
+    transition: all 0.3s ease;
+    border: 1px solid rgba(255, 255, 255, 0.8);
+}
+
+.tool-card:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--shadow-lg);
+}
+
+.tool-logo {
+    width: 80px;
+    height: 80px;
+    object-fit: contain;
+    margin-bottom: var(--spacing-md);
+    border-radius: var(--border-radius-sm);
+}
+
+.tool-card h4 {
+    font-size: 1.3rem;
+    font-weight: 600;
+    margin-bottom: var(--spacing-sm);
+    color: var(--text-primary);
+}
+
+.tool-card p {
+    font-size: 0.95rem;
+    color: var(--text-secondary);
+    margin-bottom: var(--spacing-lg);
+    line-height: 1.6;
+}
+
+.tool-links {
+    display: flex;
+    justify-content: center;
+    gap: var(--spacing-md);
+    flex-wrap: wrap;
+}
+
+.tool-links a {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--spacing-xs);
+    padding: var(--spacing-sm) var(--spacing-md);
+    background: var(--bg-primary);
+    color: var(--text-accent);
+    text-decoration: none;
+    border-radius: var(--border-radius-sm);
+    border: 1px solid rgba(239, 131, 0, 0.3);
+    font-size: 0.9rem;
+    font-weight: 500;
+    transition: all 0.2s ease;
+}
+
+.tool-links a:hover {
+    background: var(--text-accent);
+    color: white;
+    transform: translateY(-1px);
+    box-shadow: var(--shadow-accent);
+}
+
+.tool-links i {
+    font-size: 0.9em;
+}
+
+/* レスポンシブ対応 */
+@media (max-width: 768px) {
+    .research-introduction {
+        margin: var(--spacing-lg) 0;
+        padding: var(--spacing-xl);
+    }
+    
+    .research-text {
+        font-size: 1.1rem;
+    }
+    
+    .research-text-en {
+        font-size: 1rem;
+    }
+    
+    .tools-grid {
+        grid-template-columns: 1fr;
+        gap: var(--spacing-lg);
+    }
+    
+    .tool-links {
+        flex-direction: column;
+        align-items: center;
+    }
+    
+    .tool-links a {
+        width: 100%;
+        justify-content: center;
+        max-width: 200px;
+    }
 }
 
 /* ================================================= */
@@ -485,6 +955,7 @@ a {
     color: var(--text-secondary);
     line-height: 1.6;
     margin-bottom: var(--spacing-sm);
+    font-size: 1.2rem;
 }
 
 .tool-buttons {
@@ -577,6 +1048,14 @@ a {
     color: var(--text-primary);
     margin-bottom: var(--spacing-md);
     font-weight: 700;
+    font-size: 1.6rem;
+}
+
+.profile-card h3 {
+    color: var(--text-secondary);
+    margin-bottom: var(--spacing-md);
+    font-weight: 500;
+    font-size: 1.1rem;
 }
 
 .profile-card p {
@@ -586,8 +1065,8 @@ a {
 }
 
 .profile-card img.member-photo {
-    width: 120px;
-    height: 120px;
+    width: 160px;
+    height: 160px;
     border-radius: 50%;
     margin-bottom: var(--spacing-lg);
     border: 3px solid rgba(239, 131, 0, 0.3);
