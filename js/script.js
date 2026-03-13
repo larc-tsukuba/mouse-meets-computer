@@ -120,6 +120,11 @@ function openTab(evt, tabName) {
 }
 
 document.addEventListener("DOMContentLoaded", function () {
+    var currentYear = document.getElementById("current-year");
+    if (currentYear) {
+        currentYear.textContent = new Date().getFullYear();
+    }
+
     // URLのハッシュを取得
     var hash = window.location.hash.slice(1); // "#" を除去
     var validTabs = ["home", "tools", "news", "members", "publications", "links"]; // 有効なタブID
