@@ -2,6 +2,48 @@
 // HTMLファイルの読み込み
 // ############################################################
 
+function normalizeEntries(container, entryClassName) {
+    if (!container || container.dataset.normalized === 'true') {
+        return;
+    }
+
+    const fragment = document.createDocumentFragment();
+    let entry = null;
+
+    const commitEntry = () => {
+        if (entry && entry.childElementCount > 0) {
+            fragment.appendChild(entry);
+        }
+        entry = null;
+    };
+
+    Array.from(container.childNodes).forEach(node => {
+        if (node.nodeType === Node.TEXT_NODE && node.textContent.trim() === '') {
+            return;
+        }
+
+        if (node.nodeType === Node.COMMENT_NODE) {
+            return;
+        }
+
+        if (node.nodeType === Node.ELEMENT_NODE && node.tagName === 'HR') {
+            commitEntry();
+            return;
+        }
+
+        if (!entry) {
+            entry = document.createElement('article');
+            entry.className = entryClassName;
+        }
+
+        entry.appendChild(node);
+    });
+
+    commitEntry();
+    container.replaceChildren(fragment);
+    container.dataset.normalized = 'true';
+}
+
 fetch('./html/tools.html')
     .then(response => response.text())
     .then(data => {
@@ -13,7 +55,9 @@ fetch('./html/tools.html')
 fetch('./html/news.html')
     .then(response => response.text())
     .then(data => {
-        document.getElementById('news-html').innerHTML = data;
+        const newsContainer = document.getElementById('news-html');
+        newsContainer.innerHTML = data;
+        normalizeEntries(newsContainer, 'news-entry');
     })
     .catch(error => console.error('Error loading news.html:', error));
 
@@ -29,7 +73,9 @@ fetch('./html/members.html')
 fetch('./html/publications.html')
     .then(response => response.text())
     .then(data => {
-        document.getElementById('publications-html').innerHTML = data;
+        const publicationsContainer = document.getElementById('publications-html');
+        publicationsContainer.innerHTML = data;
+        normalizeEntries(publicationsContainer, 'publication-entry');
     })
     .catch(error => console.error('Error loading publications.html:', error));
 
