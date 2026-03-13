@@ -1,6 +1,12 @@
 // ############################################################
-// HTMLファイルの読み込み
+// Shared constants and helpers
 // ############################################################
+
+const VALID_TABS = ['home', 'tools', 'news', 'members', 'publications', 'links'];
+
+const capitalize = (value) => value.charAt(0).toUpperCase() + value.slice(1);
+
+const getTabButton = (tabName) => document.querySelector(`.tablinks[onclick*="${tabName}"]`);
 
 function normalizeEntries(container, entryClassName) {
     if (!container || container.dataset.normalized === 'true') {
@@ -17,18 +23,18 @@ function normalizeEntries(container, entryClassName) {
         entry = null;
     };
 
-    Array.from(container.childNodes).forEach(node => {
+    for (const node of container.childNodes) {
         if (node.nodeType === Node.TEXT_NODE && node.textContent.trim() === '') {
-            return;
+            continue;
         }
 
         if (node.nodeType === Node.COMMENT_NODE) {
-            return;
+            continue;
         }
 
         if (node.nodeType === Node.ELEMENT_NODE && node.tagName === 'HR') {
             commitEntry();
-            return;
+            continue;
         }
 
         if (!entry) {
@@ -37,125 +43,110 @@ function normalizeEntries(container, entryClassName) {
         }
 
         entry.appendChild(node);
-    });
+    }
 
     commitEntry();
     container.replaceChildren(fragment);
     container.dataset.normalized = 'true';
 }
 
-fetch('./html/tools.html')
-    .then(response => response.text())
-    .then(data => {
-        document.getElementById('tools-html').innerHTML = data;
-    })
-    .catch(error => console.error('Error loading tools.html:', error));
+// ############################################################
+// HTMLファイルの読み込み
+// ############################################################
 
+const loadFragment = async (path, targetId, entryClassName) => {
+    try {
+        const response = await fetch(path);
+        if (!response.ok) {
+            throw new Error(`Failed to load ${path}: ${response.status}`);
+        }
 
-fetch('./html/news.html')
-    .then(response => response.text())
-    .then(data => {
-        const newsContainer = document.getElementById('news-html');
-        newsContainer.innerHTML = data;
-        normalizeEntries(newsContainer, 'news-entry');
-    })
-    .catch(error => console.error('Error loading news.html:', error));
+        const target = document.getElementById(targetId);
+        if (!target) {
+            console.error(`Target container not found: ${targetId}`);
+            return;
+        }
 
+        target.innerHTML = await response.text();
+        if (entryClassName) {
+            normalizeEntries(target, entryClassName);
+        }
+    } catch (error) {
+        console.error(`Error loading ${path}:`, error);
+    }
+};
 
-fetch('./html/members.html')
-    .then(response => response.text())
-    .then(data => {
-        document.getElementById('members-html').innerHTML = data;
-    })
-    .catch(error => console.error('Error loading members.html:', error));
+const initializeContent = () => {
+    const fragments = [
+        { path: './html/tools.html', targetId: 'tools-html' },
+        { path: './html/news.html', targetId: 'news-html', entryClassName: 'news-entry' },
+        { path: './html/members.html', targetId: 'members-html' },
+        { path: './html/publications.html', targetId: 'publications-html', entryClassName: 'publication-entry' },
+        { path: './html/links.html', targetId: 'links-html' }
+    ];
 
+    fragments.forEach(({ path, targetId, entryClassName }) => {
+        void loadFragment(path, targetId, entryClassName);
+    });
+};
 
-fetch('./html/publications.html')
-    .then(response => response.text())
-    .then(data => {
-        const publicationsContainer = document.getElementById('publications-html');
-        publicationsContainer.innerHTML = data;
-        normalizeEntries(publicationsContainer, 'publication-entry');
-    })
-    .catch(error => console.error('Error loading publications.html:', error));
-
-
-fetch('./html/links.html')
-    .then(response => response.text())
-    .then(data => {
-        document.getElementById('links-html').innerHTML = data;
-    })
-    .catch(error => console.error('Error loading links.html:', error));
+initializeContent();
 
 // ############################################################
 // タブ切り替え操作
 // ############################################################
 
-function openTab(evt, tabName) {
-    // リンクのデフォルト動作を防ぐ（画面がスクロールしないようにする）
-    if (evt) {
-        evt.preventDefault();
+function openTab(evt, tabName, options = {}) {
+    const { updateHash = true } = options;
+
+    evt?.preventDefault();
+
+    document.querySelectorAll('.tabcontent').forEach((content) => {
+        content.style.display = 'none';
+    });
+
+    document.querySelectorAll('.tablinks').forEach((tab) => {
+        tab.classList.remove('active');
+    });
+
+    const activeTab = document.getElementById(tabName);
+    if (!activeTab) {
+        console.error(`Tab content not found: ${tabName}`);
+        return;
     }
 
-    // Hide all tab content
-    var tabcontent = document.getElementsByClassName("tabcontent");
-    for (var i = 0; i < tabcontent.length; i++) {
-        tabcontent[i].style.display = "none";
-    }
+    activeTab.style.display = 'block';
+    const activeButton = evt?.currentTarget ?? getTabButton(tabName);
+    activeButton?.classList.add('active');
 
-    // Remove the "active" class from all tab links
-    var tablinks = document.getElementsByClassName("tablinks");
-    for (var i = 0; i < tablinks.length; i++) {
-        tablinks[i].className = tablinks[i].className.replace(" active", "");
+    if (updateHash) {
+        history.replaceState(null, '', `#${tabName.toLowerCase()}`);
     }
-
-    // Show the current tab's content and add "active" class to the clicked tab
-    document.getElementById(tabName).style.display = "block";
-    if (evt) {
-        evt.currentTarget.className += " active";
-    }
-
-    // Update the URL hash without scrolling
-    history.replaceState(null, null, `#${tabName.toLowerCase()}`);
 }
 
-document.addEventListener("DOMContentLoaded", function () {
-    var currentYear = document.getElementById("current-year");
+const initializeFooterYear = () => {
+    const currentYear = document.getElementById('current-year');
     if (currentYear) {
-        currentYear.textContent = new Date().getFullYear();
+        currentYear.textContent = String(new Date().getFullYear());
     }
+};
 
-    // URLのハッシュを取得
-    var hash = window.location.hash.slice(1); // "#" を除去
-    var validTabs = ["home", "tools", "news", "members", "publications", "links"]; // 有効なタブID
+const initializeTabs = () => {
+    const hash = window.location.hash.slice(1);
+    const hasValidHash = VALID_TABS.includes(hash);
+    const initialTabName = hasValidHash ? capitalize(hash) : 'Home';
 
-    // ハッシュが有効なタブIDの場合のみ適用
-    if (validTabs.includes(hash)) {
-        document.getElementById(hash.charAt(0).toUpperCase() + hash.slice(1)).style.display = "block";
-        var button = document.querySelector(`.tablinks[onclick*="${hash.charAt(0).toUpperCase() + hash.slice(1)}"]`);
-        if (button) {
-            button.className += " active";
-        }
+    openTab(null, initialTabName, { updateHash: hasValidHash });
 
-        // スクロール位置をトップにリセット
+    if (hasValidHash) {
         setTimeout(() => window.scrollTo(0, 0), 0);
-    } else {
-        // デフォルトタブを表示（Homeタブ）
-        document.getElementById("Home").style.display = "block";
-        document.querySelector(`.tablinks[onclick*="Home"]`).className += " active";
     }
-});
+};
 
-// ハッシュ変更時の処理
-window.addEventListener("hashchange", function () {
-    var hash = window.location.hash.slice(1); // "#" を除去
-    var validTabs = ["home", "tools", "news", "members", "publications", "links"]; // 有効なタブID
-
-    // ハッシュが有効なタブIDの場合のみ適用
-    if (validTabs.includes(hash)) {
-        openTab(null, hash.charAt(0).toUpperCase() + hash.slice(1));
-
-        // スクロール位置をトップにリセット
+window.addEventListener('hashchange', () => {
+    const hash = window.location.hash.slice(1);
+    if (VALID_TABS.includes(hash)) {
+        openTab(null, capitalize(hash), { updateHash: false });
         window.scrollTo(0, 0);
     }
 });
@@ -164,55 +155,57 @@ window.addEventListener("hashchange", function () {
 // インタラクティブ図のツールクリック機能
 // ############################################################
 
-// DOMが読み込まれた後にイベントリスナーを追加
-document.addEventListener("DOMContentLoaded", function () {
-    // 少し遅延を入れてHTMLが確実に読み込まれるのを待つ
+const highlightToolCard = (targetElement) => {
+    targetElement.style.transition = 'all 0.3s ease';
+    targetElement.style.transform = 'scale(1.02)';
+    targetElement.style.boxShadow = '0 8px 25px rgba(239, 131, 0, 0.3)';
+
     setTimeout(() => {
-        // クリック可能なツールアイテムにイベントリスナーを追加
-        const clickableTools = document.querySelectorAll('.clickable-tool');
-        
-        clickableTools.forEach(tool => {
-            tool.addEventListener('click', function() {
-                const sectionId = this.getAttribute('data-section');
-                
-                if (sectionId) {
-                    // Toolsタブを開く
-                    openTab(null, 'Tools');
-                    
-                    // 少し遅延してからスクロール
-                    setTimeout(() => {
-                        const targetElement = document.getElementById(sectionId);
-                        if (targetElement) {
-                            targetElement.scrollIntoView({ 
-                                behavior: 'smooth',
-                                block: 'center'
-                            });
-                            
-                            // ハイライト効果を追加
-                            targetElement.style.transition = 'all 0.3s ease';
-                            targetElement.style.transform = 'scale(1.02)';
-                            targetElement.style.boxShadow = '0 8px 25px rgba(239, 131, 0, 0.3)';
-                            
-                            // 2秒後にハイライトを解除
-                            setTimeout(() => {
-                                targetElement.style.transform = 'scale(1)';
-                                targetElement.style.boxShadow = '';
-                            }, 2000);
-                        }
-                    }, 300);
+        targetElement.style.transform = 'scale(1)';
+        targetElement.style.boxShadow = '';
+    }, 2000);
+};
+
+const initializeInteractiveTools = () => {
+    document.querySelectorAll('.clickable-tool').forEach((tool) => {
+        tool.addEventListener('click', () => {
+            const { section: sectionId } = tool.dataset;
+            if (!sectionId) {
+                return;
+            }
+
+            openTab(null, 'Tools');
+
+            setTimeout(() => {
+                const targetElement = document.getElementById(sectionId);
+                if (!targetElement) {
+                    console.error(`Tool section not found: ${sectionId}`);
+                    return;
                 }
-            });
-            
-            // ホバー効果の追加フィードバック
-            tool.addEventListener('mouseenter', function() {
-                const sectionId = this.getAttribute('data-section');
-                
-                if (sectionId) {
-                    this.style.cursor = 'pointer';
-                    // タイトル属性を追加してツールチップ表示
-                    this.setAttribute('title', `${sectionId}の詳細を見る`);
-                }
-            });
+
+                targetElement.scrollIntoView({
+                    behavior: 'smooth',
+                    block: 'center'
+                });
+
+                highlightToolCard(targetElement);
+            }, 300);
         });
-    }, 500);
+
+        tool.addEventListener('mouseenter', () => {
+            const { section: sectionId } = tool.dataset;
+            if (!sectionId) {
+                return;
+            }
+
+            tool.style.cursor = 'pointer';
+            tool.setAttribute('title', `${sectionId}の詳細を見る`);
+        });
+    });
+};
+
+document.addEventListener('DOMContentLoaded', () => {
+    initializeFooterYear();
+    initializeTabs();
+    initializeInteractiveTools();
 });
