@@ -943,6 +943,10 @@ a {
     gap: var(--spacing-xl);
 }
 
+.fragment-contents {
+    display: contents;
+}
+
 #Tools .tool-item {
     display: grid;
     grid-template-columns: minmax(0, 3fr) minmax(15rem, 2fr);
@@ -1110,13 +1114,6 @@ a {
 /* ================================================= */
 /* モダンメンバーカード */
 /* ================================================= */
-.members-grid {
-    display: grid;
-    gap: var(--spacing-xl);
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-}
-
-
 .profile-card {
     background: rgba(255, 255, 255, 0.98);
     padding: var(--spacing-2xl);
@@ -1168,6 +1165,14 @@ a {
     color: var(--text-secondary);
     margin-bottom: var(--spacing-lg);
     line-height: 1.6;
+}
+
+.profile-card h2,
+.profile-card h3,
+.profile-card p,
+.profile-card a {
+    overflow-wrap: anywhere;
+    word-break: break-word;
 }
 
 .profile-card img.member-photo {
@@ -1359,10 +1364,6 @@ a {
         align-items: stretch;
         justify-self: stretch;
         max-width: none;
-    }
-
-    .members-grid {
-        grid-template-columns: 1fr;
     }
 
     .profile-card {
