@@ -3,10 +3,13 @@
 // ############################################################
 
 const VALID_TABS = ['home', 'tools', 'news', 'members', 'publications', 'links'];
-const ENTRY_HASH_PATTERN = /^(news|publications)-(\d{4}-\d{2}-\d{2})(?:-(\d+))?$/;
+const DATE_ENTRY_HASH_PATTERN = /^(news|publications)-(\d{4}-\d{2}-\d{2})(?:-(\d+))?$/;
+const ID_ENTRY_HASH_PATTERN = /^(tools|members)-(.+)$/;
 const ISO_DATE_PATTERN = /^\d{4}-\d{2}-\d{2}$/;
-const ENTRY_HASH_TARGETS = {
+const HASH_TARGET_TABS = {
     news: 'News',
+    tools: 'Tools',
+    members: 'Members',
     publications: 'Publications'
 };
 
@@ -24,19 +27,26 @@ const getCurrentHash = () => {
     }
 };
 
-const getEntryHashTarget = (hash) => {
-    const match = hash.match(ENTRY_HASH_PATTERN);
-    if (!match) {
+const getHashTarget = (hash) => {
+    const dateEntryMatch = hash.match(DATE_ENTRY_HASH_PATTERN);
+    if (dateEntryMatch) {
+        const [, prefix, , duplicateIndex] = dateEntryMatch;
+        if (duplicateIndex && Number(duplicateIndex) < 2) {
+            return null;
+        }
+
+        const tabName = HASH_TARGET_TABS[prefix];
+        return tabName ? { hash, id: hash, tabName } : null;
+    }
+
+    const idEntryMatch = hash.match(ID_ENTRY_HASH_PATTERN);
+    if (!idEntryMatch) {
         return null;
     }
 
-    const [, prefix, , duplicateIndex] = match;
-    if (duplicateIndex && Number(duplicateIndex) < 2) {
-        return null;
-    }
-
-    const tabName = ENTRY_HASH_TARGETS[prefix];
-    return tabName ? { id: hash, tabName } : null;
+    const [, prefix, targetId] = idEntryMatch;
+    const tabName = HASH_TARGET_TABS[prefix];
+    return tabName ? { hash, id: targetId, tabName } : null;
 };
 
 function normalizeEntries(container, entryClassName) {
@@ -222,12 +232,12 @@ const scrollToTop = (behavior = 'auto') => {
 
 const handleHashNavigation = async (behavior = 'auto') => {
     const hash = getCurrentHash();
-    const entryTarget = getEntryHashTarget(hash);
+    const entryTarget = getHashTarget(hash);
 
     if (entryTarget) {
         openTab(null, entryTarget.tabName, { updateHash: false });
         await contentReady;
-        if (getCurrentHash() !== entryTarget.id) {
+        if (getCurrentHash() !== entryTarget.hash) {
             return;
         }
 
