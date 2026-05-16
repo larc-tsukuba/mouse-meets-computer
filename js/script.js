@@ -262,6 +262,13 @@ window.addEventListener('hashchange', () => {
     void handleHashNavigation('smooth');
 });
 
+const initializePageTopButton = () => {
+    document.querySelector('.pagetop')?.addEventListener('click', (event) => {
+        event.preventDefault();
+        scrollToTop('smooth');
+    });
+};
+
 // ############################################################
 // インタラクティブ図のツールクリック機能
 // ############################################################
@@ -318,5 +325,6 @@ const initializeInteractiveTools = () => {
 document.addEventListener('DOMContentLoaded', () => {
     initializeFooterYear();
     initializeTabs();
+    initializePageTopButton();
     initializeInteractiveTools();
 });
