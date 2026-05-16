@@ -3,10 +3,41 @@
 // ############################################################
 
 const VALID_TABS = ['home', 'tools', 'news', 'members', 'publications', 'links'];
+const ENTRY_HASH_PATTERN = /^(news|publications)-(\d{4}-\d{2}-\d{2})(?:-(\d+))?$/;
+const ISO_DATE_PATTERN = /^\d{4}-\d{2}-\d{2}$/;
+const ENTRY_HASH_TARGETS = {
+    news: 'News',
+    publications: 'Publications'
+};
 
 const capitalize = (value) => value.charAt(0).toUpperCase() + value.slice(1);
 
 const getTabButton = (tabName) => document.querySelector(`.tablinks[onclick*="${tabName}"]`);
+
+const getCurrentHash = () => {
+    const hash = window.location.hash.slice(1);
+
+    try {
+        return decodeURIComponent(hash);
+    } catch {
+        return hash;
+    }
+};
+
+const getEntryHashTarget = (hash) => {
+    const match = hash.match(ENTRY_HASH_PATTERN);
+    if (!match) {
+        return null;
+    }
+
+    const [, prefix, , duplicateIndex] = match;
+    if (duplicateIndex && Number(duplicateIndex) < 2) {
+        return null;
+    }
+
+    const tabName = ENTRY_HASH_TARGETS[prefix];
+    return tabName ? { id: hash, tabName } : null;
+};
 
 function normalizeEntries(container, entryClassName) {
     if (!container || container.dataset.normalized === 'true') {
@@ -50,11 +81,37 @@ function normalizeEntries(container, entryClassName) {
     container.dataset.normalized = 'true';
 }
 
+function assignEntryIds(container, entryClassName, entryHashPrefix) {
+    if (!container || !entryClassName || !entryHashPrefix || container.dataset.entryIds === 'true') {
+        return;
+    }
+
+    const dateCounts = new Map();
+
+    Array.from(container.children).forEach((entry) => {
+        if (!entry.classList.contains(entryClassName)) {
+            return;
+        }
+
+        const date = entry.querySelector('h3 time[datetime]')?.getAttribute('datetime');
+        if (!date || !ISO_DATE_PATTERN.test(date)) {
+            return;
+        }
+
+        const dateCount = (dateCounts.get(date) ?? 0) + 1;
+        dateCounts.set(date, dateCount);
+
+        entry.id = `${entryHashPrefix}-${date}${dateCount > 1 ? `-${dateCount}` : ''}`;
+    });
+
+    container.dataset.entryIds = 'true';
+}
+
 // ############################################################
 // HTMLファイルの読み込み
 // ############################################################
 
-const loadFragment = async (path, targetId, entryClassName) => {
+const loadFragment = async (path, targetId, entryClassName, entryHashPrefix) => {
     try {
         const response = await fetch(path);
         if (!response.ok) {
@@ -70,6 +127,7 @@ const loadFragment = async (path, targetId, entryClassName) => {
         target.innerHTML = await response.text();
         if (entryClassName) {
             normalizeEntries(target, entryClassName);
+            assignEntryIds(target, entryClassName, entryHashPrefix);
         }
     } catch (error) {
         console.error(`Error loading ${path}:`, error);
@@ -79,18 +137,23 @@ const loadFragment = async (path, targetId, entryClassName) => {
 const initializeContent = () => {
     const fragments = [
         { path: './html/tools.html', targetId: 'tools-html' },
-        { path: './html/news.html', targetId: 'news-html', entryClassName: 'news-entry' },
+        { path: './html/news.html', targetId: 'news-html', entryClassName: 'news-entry', entryHashPrefix: 'news' },
         { path: './html/members.html', targetId: 'members-html' },
-        { path: './html/publications.html', targetId: 'publications-html', entryClassName: 'publication-entry' },
+        {
+            path: './html/publications.html',
+            targetId: 'publications-html',
+            entryClassName: 'publication-entry',
+            entryHashPrefix: 'publications'
+        },
         { path: './html/links.html', targetId: 'links-html' }
     ];
 
-    fragments.forEach(({ path, targetId, entryClassName }) => {
-        void loadFragment(path, targetId, entryClassName);
-    });
+    return Promise.all(fragments.map(({ path, targetId, entryClassName, entryHashPrefix }) => (
+        loadFragment(path, targetId, entryClassName, entryHashPrefix)
+    )));
 };
 
-initializeContent();
+const contentReady = initializeContent();
 
 // ############################################################
 // タブ切り替え操作
@@ -131,24 +194,62 @@ const initializeFooterYear = () => {
     }
 };
 
-const initializeTabs = () => {
-    const hash = window.location.hash.slice(1);
-    const hasValidHash = VALID_TABS.includes(hash);
-    const initialTabName = hasValidHash ? capitalize(hash) : 'Home';
-
-    openTab(null, initialTabName, { updateHash: hasValidHash });
-
-    if (hasValidHash) {
-        setTimeout(() => window.scrollTo(0, 0), 0);
+const scrollToEntry = (entryId, behavior = 'smooth') => {
+    const target = document.getElementById(entryId);
+    if (!target) {
+        console.warn(`Entry target not found: ${entryId}`);
+        return;
     }
+
+    requestAnimationFrame(() => {
+        target.scrollIntoView({
+            behavior,
+            block: 'start'
+        });
+    });
+};
+
+const scrollToTop = (behavior = 'auto') => {
+    requestAnimationFrame(() => {
+        if (behavior === 'smooth') {
+            window.scrollTo({ top: 0, left: 0, behavior });
+            return;
+        }
+
+        window.scrollTo(0, 0);
+    });
+};
+
+const handleHashNavigation = async (behavior = 'auto') => {
+    const hash = getCurrentHash();
+    const entryTarget = getEntryHashTarget(hash);
+
+    if (entryTarget) {
+        openTab(null, entryTarget.tabName, { updateHash: false });
+        await contentReady;
+        if (getCurrentHash() !== entryTarget.id) {
+            return;
+        }
+
+        scrollToEntry(entryTarget.id, behavior);
+        return;
+    }
+
+    if (VALID_TABS.includes(hash)) {
+        openTab(null, capitalize(hash), { updateHash: false });
+        scrollToTop(behavior);
+        return;
+    }
+
+    openTab(null, 'Home', { updateHash: false });
+};
+
+const initializeTabs = () => {
+    void handleHashNavigation();
 };
 
 window.addEventListener('hashchange', () => {
-    const hash = window.location.hash.slice(1);
-    if (VALID_TABS.includes(hash)) {
-        openTab(null, capitalize(hash), { updateHash: false });
-        window.scrollTo(0, 0);
-    }
+    void handleHashNavigation('smooth');
 });
 
 // ############################################################
