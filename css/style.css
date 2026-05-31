@@ -1099,6 +1099,10 @@ a {
     margin-bottom: 0;
 }
 
+.news-entry .photo-caption {
+    text-align: center;
+}
+
 .news-entry .link-button,
 .publication-entry .link-button {
     margin-top: var(--spacing-lg);
