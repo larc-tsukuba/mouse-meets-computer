@@ -136,6 +136,35 @@ h3 {
     text-align: center;
 }
 
+.language-switch {
+    display: flex;
+    justify-content: flex-end;
+    margin-bottom: var(--spacing-md);
+}
+
+.language-switch a {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 44px;
+    padding: var(--spacing-xs) var(--spacing-md);
+    color: var(--text-accent);
+    background: var(--bg-primary);
+    border: 1px solid var(--surface-border-strong);
+    border-radius: var(--border-radius-md);
+    box-shadow: var(--shadow-sm);
+    font-size: 1rem;
+    font-weight: 600;
+    text-decoration: none;
+    transition: color var(--transition-fast), background var(--transition-fast), box-shadow var(--transition-fast);
+}
+
+.language-switch a:hover {
+    color: white;
+    background: var(--text-accent);
+    box-shadow: var(--shadow-accent);
+}
+
 .header-image {
     max-width: 80%;
     height: auto;
@@ -397,6 +426,7 @@ footer {
     border-bottom: 2px solid var(--text-accent);
 }
 
+.stage-label,
 .header-jp {
     font-weight: 600;
     font-size: var(--font-size-min);

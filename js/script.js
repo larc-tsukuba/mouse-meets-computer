@@ -12,8 +12,12 @@ const HASH_TARGET_TABS = {
     members: 'Members',
     publications: 'Publications'
 };
+const PAGE_LANGUAGE = document.documentElement.lang.toLowerCase().startsWith('en') ? 'en' : 'ja';
+const FRAGMENT_SUFFIX = PAGE_LANGUAGE === 'en' ? '_en' : '';
 
 const capitalize = (value) => value.charAt(0).toUpperCase() + value.slice(1);
+
+const getFragmentPath = (name) => `./html/${name}${FRAGMENT_SUFFIX}.html`;
 
 const getTabButton = (tabName) => document.querySelector(`.tablinks[onclick*="${tabName}"]`);
 
@@ -146,16 +150,21 @@ const loadFragment = async (path, targetId, entryClassName, entryHashPrefix) => 
 
 const initializeContent = () => {
     const fragments = [
-        { path: './html/tools.html', targetId: 'tools-html' },
-        { path: './html/news.html', targetId: 'news-html', entryClassName: 'news-entry', entryHashPrefix: 'news' },
-        { path: './html/members.html', targetId: 'members-html' },
+        { path: getFragmentPath('tools'), targetId: 'tools-html' },
         {
-            path: './html/publications.html',
+            path: getFragmentPath('news'),
+            targetId: 'news-html',
+            entryClassName: 'news-entry',
+            entryHashPrefix: 'news'
+        },
+        { path: getFragmentPath('members'), targetId: 'members-html' },
+        {
+            path: getFragmentPath('publications'),
             targetId: 'publications-html',
             entryClassName: 'publication-entry',
             entryHashPrefix: 'publications'
         },
-        { path: './html/links.html', targetId: 'links-html' }
+        { path: getFragmentPath('links'), targetId: 'links-html' }
     ];
 
     return Promise.all(fragments.map(({ path, targetId, entryClassName, entryHashPrefix }) => (
@@ -317,7 +326,10 @@ const initializeInteractiveTools = () => {
             }
 
             tool.style.cursor = 'pointer';
-            tool.setAttribute('title', `${sectionId}の詳細を見る`);
+            const tooltip = PAGE_LANGUAGE === 'en'
+                ? `View details for ${sectionId}`
+                : `${sectionId}の詳細を見る`;
+            tool.setAttribute('title', tooltip);
         });
     });
 };
