@@ -1,3 +1,34 @@
+/* Local Font Awesome 6.7.2 SVGs; see image/icons/LICENSE.txt. */
+.fa-solid,
+.fa-regular,
+.fa-brands {
+    display: inline-block;
+    width: calc(1em * var(--icon-ratio, 1));
+    height: 1em;
+    flex-shrink: 0;
+    vertical-align: -0.125em;
+    background-color: currentColor;
+    -webkit-mask: var(--icon) center / contain no-repeat;
+    mask: var(--icon) center / contain no-repeat;
+}
+
+.fa-address-book { --icon: url("../image/icons/address-book.svg"); --icon-ratio: 1; }
+.fa-circle-play { --icon: url("../image/icons/circle-play.svg"); --icon-ratio: 1; }
+.fa-comment { --icon: url("../image/icons/comment.svg"); --icon-ratio: 1; }
+.fa-dna { --icon: url("../image/icons/dna.svg"); --icon-ratio: 0.875; }
+.fa-envelope { --icon: url("../image/icons/envelope.svg"); --icon-ratio: 1; }
+.fa-file-pdf { --icon: url("../image/icons/file-pdf.svg"); --icon-ratio: 1; }
+.fa-github { --icon: url("../image/icons/github.svg"); --icon-ratio: 0.96875; }
+.fa-globe { --icon: url("../image/icons/globe.svg"); --icon-ratio: 1; }
+.fa-handshake { --icon: url("../image/icons/handshake.svg"); --icon-ratio: 1.25; }
+.fa-home { --icon: url("../image/icons/home.svg"); --icon-ratio: 1.125; }
+.fa-laptop-code { --icon: url("../image/icons/laptop-code.svg"); --icon-ratio: 1.25; }
+.fa-link { --icon: url("../image/icons/link.svg"); --icon-ratio: 1.25; }
+.fa-message { --icon: url("../image/icons/message.svg"); --icon-ratio: 1; }
+.fa-microscope { --icon: url("../image/icons/microscope.svg"); --icon-ratio: 1; }
+.fa-newspaper { --icon: url("../image/icons/newspaper.svg"); --icon-ratio: 1; }
+.fa-x-twitter { --icon: url("../image/icons/x-twitter.svg"); --icon-ratio: 1; }
+
 /* ================================================= */
 /* Modern Design Variables */
 /* ================================================= */
@@ -904,7 +935,6 @@ a {
 
 .tabcontent {
     display: none;
-    animation: fadeInUp 0.5s ease-out;
 }
 
 @keyframes fadeInUp {
@@ -1248,6 +1278,7 @@ a {
 /* ================================================= */
 .photo {
     display: block;
+    height: auto;
     margin: 0 auto var(--spacing-lg) auto;
     max-width: 60%;
     border-radius: var(--border-radius-lg);
@@ -1552,4 +1583,21 @@ a {
     #Tools .tool-item:hover {
         transform: none;
     }
+}
+
+/* Loading feedback occupies a full row in tab content grids. */
+.fragment-status {
+    grid-column: 1 / -1;
+    padding: var(--spacing-lg);
+    color: var(--text-secondary);
+}
+
+.fragment-retry {
+    font: inherit;
+    color: var(--text-accent);
+    background: var(--bg-primary);
+    border: 1px solid currentColor;
+    border-radius: var(--border-radius-sm);
+    padding: var(--spacing-xs) var(--spacing-md);
+    cursor: pointer;
 }

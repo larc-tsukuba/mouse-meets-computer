@@ -50,7 +50,7 @@ const getHashTarget = (hash) => {
 
     const [, prefix, targetId] = idEntryMatch;
     const tabName = HASH_TARGET_TABS[prefix];
-    return tabName ? { hash, id: targetId, tabName } : null;
+    return tabName ? { hash, id: targetId.toLowerCase(), tabName } : null;
 };
 
 function normalizeEntries(container, entryClassName) {
@@ -68,7 +68,7 @@ function normalizeEntries(container, entryClassName) {
         entry = null;
     };
 
-    for (const node of container.childNodes) {
+    for (const node of Array.from(container.childNodes)) {
         if (node.nodeType === Node.TEXT_NODE && node.textContent.trim() === '') {
             continue;
         }
@@ -122,57 +122,67 @@ function assignEntryIds(container, entryClassName, entryHashPrefix) {
 }
 
 // ############################################################
-// HTMLファイルの読み込み
+// Load each tab once, only when selected
 // ############################################################
 
-const loadFragment = async (path, targetId, entryClassName, entryHashPrefix) => {
-    try {
-        const response = await fetch(path);
-        if (!response.ok) {
-            throw new Error(`Failed to load ${path}: ${response.status}`);
-        }
+const fragmentRequests = new Map();
+let navigationVersion = 0;
 
-        const target = document.getElementById(targetId);
-        if (!target) {
-            console.error(`Target container not found: ${targetId}`);
-            return;
-        }
-
-        target.innerHTML = await response.text();
-        if (entryClassName) {
-            normalizeEntries(target, entryClassName);
-            assignEntryIds(target, entryClassName, entryHashPrefix);
-        }
-    } catch (error) {
-        console.error(`Error loading ${path}:`, error);
+const loadTab = (tabName) => {
+    if (tabName === 'Home') {
+        return Promise.resolve(true);
     }
+    if (fragmentRequests.has(tabName)) {
+        return fragmentRequests.get(tabName);
+    }
+
+    const name = tabName.toLowerCase();
+    const target = document.getElementById(`${name}-html`);
+    if (!target) {
+        return Promise.resolve(false);
+    }
+
+    const status = document.createElement('div');
+    status.className = 'fragment-status';
+    status.setAttribute('role', 'status');
+    status.textContent = PAGE_LANGUAGE === 'en' ? 'Loading…' : '読み込み中…';
+    target.replaceChildren(status);
+    target.setAttribute('aria-busy', 'true');
+
+    const request = (async () => {
+        try {
+            const response = await fetch(getFragmentPath(name));
+            if (!response.ok) {
+                throw new Error(`Failed to load ${name}: ${response.status}`);
+            }
+            target.innerHTML = await response.text();
+            if (name === 'news' || name === 'publications') {
+                const entryClassName = name === 'news' ? 'news-entry' : 'publication-entry';
+                normalizeEntries(target, entryClassName);
+                assignEntryIds(target, entryClassName, name);
+            }
+            return true;
+        } catch (error) {
+            fragmentRequests.delete(tabName);
+            console.error(`Error loading ${name}:`, error);
+            status.textContent = PAGE_LANGUAGE === 'en'
+                ? 'Unable to load this content. '
+                : 'コンテンツを読み込めませんでした。';
+            const retry = document.createElement('button');
+            retry.type = 'button';
+            retry.className = 'fragment-retry';
+            retry.textContent = PAGE_LANGUAGE === 'en' ? 'Retry' : '再試行';
+            retry.addEventListener('click', () => { void handleHashNavigation(); });
+            status.appendChild(retry);
+            target.replaceChildren(status);
+            return false;
+        } finally {
+            target.setAttribute('aria-busy', 'false');
+        }
+    })();
+    fragmentRequests.set(tabName, request);
+    return request;
 };
-
-const initializeContent = () => {
-    const fragments = [
-        { path: getFragmentPath('tools'), targetId: 'tools-html' },
-        {
-            path: getFragmentPath('news'),
-            targetId: 'news-html',
-            entryClassName: 'news-entry',
-            entryHashPrefix: 'news'
-        },
-        { path: getFragmentPath('members'), targetId: 'members-html' },
-        {
-            path: getFragmentPath('publications'),
-            targetId: 'publications-html',
-            entryClassName: 'publication-entry',
-            entryHashPrefix: 'publications'
-        },
-        { path: getFragmentPath('links'), targetId: 'links-html' }
-    ];
-
-    return Promise.all(fragments.map(({ path, targetId, entryClassName, entryHashPrefix }) => (
-        loadFragment(path, targetId, entryClassName, entryHashPrefix)
-    )));
-};
-
-const contentReady = initializeContent();
 
 // ############################################################
 // タブ切り替え操作
@@ -182,6 +192,7 @@ function openTab(evt, tabName, options = {}) {
     const { updateHash = true } = options;
 
     evt?.preventDefault();
+    navigationVersion += 1;
 
     document.querySelectorAll('.tabcontent').forEach((content) => {
         content.style.display = 'none';
@@ -204,6 +215,7 @@ function openTab(evt, tabName, options = {}) {
     if (updateHash) {
         history.replaceState(null, '', `#${tabName.toLowerCase()}`);
     }
+    return loadTab(tabName);
 }
 
 const initializeFooterYear = () => {
@@ -220,7 +232,9 @@ const scrollToEntry = (entryId, behavior = 'smooth') => {
         return;
     }
 
+    const version = navigationVersion;
     requestAnimationFrame(() => {
+        if (version !== navigationVersion) return;
         target.scrollIntoView({
             behavior,
             block: 'start'
@@ -229,7 +243,9 @@ const scrollToEntry = (entryId, behavior = 'smooth') => {
 };
 
 const scrollToTop = (behavior = 'auto') => {
+    const version = navigationVersion;
     requestAnimationFrame(() => {
+        if (version !== navigationVersion) return;
         if (behavior === 'smooth') {
             window.scrollTo({ top: 0, left: 0, behavior });
             return;
@@ -244,9 +260,10 @@ const handleHashNavigation = async (behavior = 'auto') => {
     const entryTarget = getHashTarget(hash);
 
     if (entryTarget) {
-        openTab(null, entryTarget.tabName, { updateHash: false });
-        await contentReady;
-        if (getCurrentHash() !== entryTarget.hash) {
+        const ready = openTab(null, entryTarget.tabName, { updateHash: false });
+        const version = navigationVersion;
+        const loaded = await ready;
+        if (!loaded || version !== navigationVersion || getCurrentHash() !== entryTarget.hash) {
             return;
         }
 
@@ -279,7 +296,7 @@ const initializePageTopButton = () => {
 };
 
 // ############################################################
-// インタラクティブ図のツールクリック機能
+// Navigate from the research diagram after the target tab is ready
 // ############################################################
 
 const highlightToolCard = (targetElement) => {
@@ -295,28 +312,19 @@ const highlightToolCard = (targetElement) => {
 
 const initializeInteractiveTools = () => {
     document.querySelectorAll('.clickable-tool').forEach((tool) => {
-        tool.addEventListener('click', () => {
+        tool.addEventListener('click', async () => {
             const { section: sectionId } = tool.dataset;
             if (!sectionId) {
                 return;
             }
 
-            openTab(null, 'Tools');
-
-            setTimeout(() => {
-                const targetElement = document.getElementById(sectionId);
-                if (!targetElement) {
-                    console.error(`Tool section not found: ${sectionId}`);
-                    return;
-                }
-
-                targetElement.scrollIntoView({
-                    behavior: 'smooth',
-                    block: 'center'
-                });
-
-                highlightToolCard(targetElement);
-            }, 300);
+            history.replaceState(null, '', `#tools-${encodeURIComponent(sectionId)}`);
+            const ready = handleHashNavigation('smooth');
+            const version = navigationVersion;
+            await ready;
+            if (version !== navigationVersion) return;
+            const targetElement = document.getElementById(sectionId);
+            if (targetElement) highlightToolCard(targetElement);
         });
 
         tool.addEventListener('mouseenter', () => {

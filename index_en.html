@@ -36,8 +36,8 @@
 <link href="css/sanitize.css" rel="stylesheet"/>
 <link href="https://fonts.googleapis.com" rel="preconnect"/>
 <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
-<link href="https://fonts.googleapis.com/css2?family=BIZ+UDPGothic&amp;family=Poppins&amp;laptop-code=swap" rel="stylesheet"/>
-<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=BIZ+UDPGothic&amp;family=Poppins&amp;display=swap" rel="stylesheet" media="print" onload="this.media='all'"/>
+<noscript><link href="https://fonts.googleapis.com/css2?family=BIZ+UDPGothic&amp;family=Poppins&amp;display=swap" rel="stylesheet"/></noscript>
 <link href="css/style.css" rel="stylesheet"/>
 
 <script defer="" src="./js/script.js"></script>
@@ -47,7 +47,7 @@
 <div class="container">
 <header class="hero-section">
 <div class="hero-content"><div class="language-switch"><a href="./index.html" hreflang="ja" lang="ja">日本語</a></div>
-<img alt="LARC-Tools" class="header-image" src="./image/header-mouse-meets-computer-en.png"/>
+<img alt="LARC-Tools" class="header-image" src="./image/optimized/header-mouse-meets-computer-en.png.webp" width="2400" height="1184" fetchpriority="high"/>
 <div class="hero-description">
 
 <p class="hero-text">
@@ -60,28 +60,28 @@
 <nav class="main-navigation">
 <div class="tab-scroll">
 <div class="tab-container">
-<button class="tablinks modern-tab" onclick="openTab(event, 'Home')">
-<i class="fa-solid fa-home"></i>
+<button class="tablinks modern-tab active" onclick="openTab(event, 'Home')" aria-label="Home">
+<i class="fa-solid fa-home" aria-hidden="true"></i>
 <span class="tab-text">Home</span>
 </button>
-<button class="tablinks modern-tab" onclick="openTab(event, 'Tools')">
-<i class="fa-solid fa-laptop-code"></i>
+<button class="tablinks modern-tab" onclick="openTab(event, 'Tools')" aria-label="Tools">
+<i class="fa-solid fa-laptop-code" aria-hidden="true"></i>
 <span class="tab-text">Tools</span>
 </button>
-<button class="tablinks modern-tab" onclick="openTab(event, 'News')">
-<i class="fa-regular fa-message"></i>
+<button class="tablinks modern-tab" onclick="openTab(event, 'News')" aria-label="News">
+<i class="fa-regular fa-message" aria-hidden="true"></i>
 <span class="tab-text">News</span>
 </button>
-<button class="tablinks modern-tab" onclick="openTab(event, 'Members')">
-<i class="fa-regular fa-handshake"></i>
+<button class="tablinks modern-tab" onclick="openTab(event, 'Members')" aria-label="Members">
+<i class="fa-regular fa-handshake" aria-hidden="true"></i>
 <span class="tab-text">Members</span>
 </button>
-<button class="tablinks modern-tab" onclick="openTab(event, 'Publications')">
-<i class="fa-regular fa-newspaper"></i>
+<button class="tablinks modern-tab" onclick="openTab(event, 'Publications')" aria-label="Publications">
+<i class="fa-regular fa-newspaper" aria-hidden="true"></i>
 <span class="tab-text">Publications</span>
 </button>
-<button class="tablinks modern-tab" onclick="openTab(event, 'Links')">
-<i class="fa-solid fa-link"></i>
+<button class="tablinks modern-tab" onclick="openTab(event, 'Links')" aria-label="Links">
+<i class="fa-solid fa-link" aria-hidden="true"></i>
 <span class="tab-text">Links</span>
 </button>
 </div>
@@ -92,10 +92,10 @@
 
 <main class="content-sections">
 
-<section class="tabcontent modern-section" id="Home">
+<section class="tabcontent modern-section" id="Home" style="display: block;">
 <div class="research-content">
 <h2 class="research-title">
-<i class="fa-solid fa-microscope"></i>
+<i class="fa-solid fa-microscope" aria-hidden="true"></i>
 <span>Research Overview</span>
 </h2>
 <div class="research-description">
@@ -133,14 +133,14 @@
 <div class="stage-label">Genome Editing Design</div>
 </div>
 <div class="stage-content">
-<div class="tool-item clickable-tool" data-section="KOnezumi" data-tool="konezumi">
+<div class="tool-item clickable-tool" data-section="konezumi" data-tool="konezumi">
 <img alt="KOnezumi" class="tool-icon" src="https://raw.githubusercontent.com/akikuno/logos/main/KOnezumi/KOnezumi-logo.png"/>
 </div>
-<div class="tool-item clickable-tool" data-section="KOnezumi-AID" data-tool="konezumi-aid">
-<img alt="KOnezumi-AID" class="tool-icon" src="https://raw.githubusercontent.com/larc-tsukuba/mouse-meets-computer/refs/heads/main/image/logo/logo-konezumiaid.png"/>
+<div class="tool-item clickable-tool" data-section="konezumi-aid" data-tool="konezumi-aid">
+<img alt="KOnezumi-AID" class="tool-icon" src="./image/logo/logo-konezumiaid.png" width="800" height="300" decoding="async"/>
 </div>
-<div class="tool-item clickable-tool" data-section="AltEx-BE" data-tool="altex-be">
-<img alt="AltEx-BE" class="tool-icon" src="https://raw.githubusercontent.com/larc-tsukuba/mouse-meets-computer/refs/heads/main/image/logo/logo-altexbe.jpg"/>
+<div class="tool-item clickable-tool" data-section="altex-be" data-tool="altex-be">
+<img alt="AltEx-BE" class="tool-icon" src="./image/logo/logo-altexbe.jpg" width="6250" height="2083" decoding="async"/>
 </div>
 </div>
 </div>
@@ -153,7 +153,7 @@
 </div>
 <div class="stage-content">
 <div class="genome-editing-icon non-clickable">
-<i class="fa-solid fa-dna"></i>
+<i class="fa-solid fa-dna" aria-hidden="true"></i>
 </div>
 </div>
 </div>
@@ -165,7 +165,7 @@
 <div class="stage-label">Genotyping</div>
 </div>
 <div class="stage-content">
-<div class="tool-item clickable-tool" data-section="DAJIN2" data-tool="dajin2">
+<div class="tool-item clickable-tool" data-section="dajin2" data-tool="dajin2">
 <img alt="DAJIN2" class="tool-icon" src="https://raw.githubusercontent.com/akikuno/logos/main/DAJIN2/DAJIN2-logo-drjekyll-trim.png"/>
 </div>
 <div class="tool-item clickable-tool" data-section="cstag" data-tool="cstag">
@@ -182,7 +182,7 @@
 <section class="tabcontent modern-section" id="Tools">
 <div class="section-header">
 <h2 class="section-title" id="tools">
-<i class="fa-solid fa-laptop-code"></i>
+<i class="fa-solid fa-laptop-code" aria-hidden="true"></i>
 <span>Tools</span>
 </h2>
 </div>
@@ -196,7 +196,7 @@
 <section class="tabcontent modern-section" id="News">
 <div class="section-header">
 <h2 class="section-title" id="news">
-<i class="fa-regular fa-message"></i>
+<i class="fa-regular fa-message" aria-hidden="true"></i>
 <span>News</span>
 </h2>
 </div>
@@ -210,7 +210,7 @@
 <section class="tabcontent modern-section" id="Members">
 <div class="section-header">
 <h2 class="section-title" id="members">
-<i class="fa-regular fa-handshake"></i>
+<i class="fa-regular fa-handshake" aria-hidden="true"></i>
 <span>Members</span>
 </h2>
 </div>
@@ -224,7 +224,7 @@
 <section class="tabcontent modern-section" id="Publications">
 <div class="section-header">
 <h2 class="section-title" id="publications">
-<i class="fa-regular fa-newspaper"></i>
+<i class="fa-regular fa-newspaper" aria-hidden="true"></i>
 <span>Publications</span>
 </h2>
 </div>
@@ -238,7 +238,7 @@
 <section class="tabcontent modern-section" id="Links">
 <div class="section-header">
 <h2 class="section-title" id="related-links">
-<i class="fa-solid fa-link"></i>
+<i class="fa-solid fa-link" aria-hidden="true"></i>
 <span>Links</span>
 </h2>
 </div>
