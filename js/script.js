@@ -127,6 +127,11 @@ function assignEntryIds(container, entryClassName, entryHashPrefix) {
 
 const fragmentRequests = new Map();
 let navigationVersion = 0;
+let loadingTimer;
+const navigationStatus = document.createElement('div');
+navigationStatus.className = 'navigation-status';
+navigationStatus.setAttribute('role', 'status');
+navigationStatus.hidden = true;
 
 const loadTab = (tabName) => {
     if (tabName === 'Home') {
@@ -188,11 +193,31 @@ const loadTab = (tabName) => {
 // タブ切り替え操作
 // ############################################################
 
-function openTab(evt, tabName, options = {}) {
+async function openTab(evt, tabName, options = {}) {
     const { updateHash = true } = options;
 
     evt?.preventDefault();
-    navigationVersion += 1;
+    const version = ++navigationVersion;
+    const activeButton = evt?.currentTarget ?? getTabButton(tabName);
+    const activeTab = document.getElementById(tabName);
+    if (!activeTab) return false;
+
+    if (updateHash) {
+        history.replaceState(null, '', `#${tabName.toLowerCase()}`);
+    }
+
+    clearTimeout(loadingTimer);
+    navigationStatus.hidden = true;
+    if (!navigationStatus.isConnected) document.body.appendChild(navigationStatus);
+    loadingTimer = setTimeout(() => {
+        navigationStatus.textContent = PAGE_LANGUAGE === 'en' ? 'Loading…' : '読み込み中…';
+        navigationStatus.hidden = false;
+    }, 300);
+
+    const loaded = await loadTab(tabName);
+    if (version !== navigationVersion) return false;
+    clearTimeout(loadingTimer);
+    navigationStatus.hidden = true;
 
     document.querySelectorAll('.tabcontent').forEach((content) => {
         content.style.display = 'none';
@@ -202,20 +227,10 @@ function openTab(evt, tabName, options = {}) {
         tab.classList.remove('active');
     });
 
-    const activeTab = document.getElementById(tabName);
-    if (!activeTab) {
-        console.error(`Tab content not found: ${tabName}`);
-        return;
-    }
-
     activeTab.style.display = 'block';
-    const activeButton = evt?.currentTarget ?? getTabButton(tabName);
+    document.documentElement.classList.remove('initial-fragment');
     activeButton?.classList.add('active');
-
-    if (updateHash) {
-        history.replaceState(null, '', `#${tabName.toLowerCase()}`);
-    }
-    return loadTab(tabName);
+    return loaded;
 }
 
 const initializeFooterYear = () => {
@@ -251,11 +266,11 @@ const scrollToTop = (behavior = 'auto') => {
             return;
         }
 
-        window.scrollTo(0, 0);
+        window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
     });
 };
 
-const handleHashNavigation = async (behavior = 'auto') => {
+const handleHashNavigation = async (behavior = 'instant') => {
     const hash = getCurrentHash();
     const entryTarget = getHashTarget(hash);
 
@@ -272,8 +287,10 @@ const handleHashNavigation = async (behavior = 'auto') => {
     }
 
     if (VALID_TABS.includes(hash)) {
-        openTab(null, capitalize(hash), { updateHash: false });
-        scrollToTop(behavior);
+        const ready = openTab(null, capitalize(hash), { updateHash: false });
+        const version = navigationVersion;
+        await ready;
+        if (version === navigationVersion && getCurrentHash() === hash) scrollToTop(behavior);
         return;
     }
 

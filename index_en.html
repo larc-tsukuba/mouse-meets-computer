@@ -2,6 +2,15 @@
 
 <html lang="en">
 <head>
+<script>
+    try {
+        const initialHash = decodeURIComponent(location.hash.slice(1));
+        const dateTarget = initialHash.match(/^(news|publications)-\d{4}-\d{2}-\d{2}(?:-(\d+))?$/);
+        if (/^(tools|news|members|publications|links)$/.test(initialHash) || (dateTarget && (!dateTarget[2] || Number(dateTarget[2]) >= 2)) || /^(tools|members)-.+$/.test(initialHash)) {
+            document.documentElement.classList.add('initial-fragment');
+        }
+    } catch {}
+</script>
 
 <script async="" src="https://www.googletagmanager.com/gtag/js?id=G-XMXJLY1YPC"></script>
 <script>
