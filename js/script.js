@@ -127,48 +127,49 @@ function assignEntryIds(container, entryClassName, entryHashPrefix) {
 
 const fragmentRequests = new Map();
 let navigationVersion = 0;
-let loadingTimer;
-const navigationStatus = document.createElement('div');
-navigationStatus.className = 'navigation-status';
-navigationStatus.setAttribute('role', 'status');
-navigationStatus.hidden = true;
+const requestFragment = (name) => {
+    if (fragmentRequests.has(name)) return fragmentRequests.get(name);
+
+    const request = fetch(getFragmentPath(name)).then((response) => {
+        if (!response.ok) throw new Error(`Failed to load ${name}: ${response.status}`);
+        return response.text();
+    }).catch((error) => {
+        fragmentRequests.delete(name);
+        throw error;
+    });
+    fragmentRequests.set(name, request);
+    return request;
+};
 
 const loadTab = (tabName) => {
     if (tabName === 'Home') {
         return Promise.resolve(true);
     }
-    if (fragmentRequests.has(tabName)) {
-        return fragmentRequests.get(tabName);
-    }
-
     const name = tabName.toLowerCase();
     const target = document.getElementById(`${name}-html`);
     if (!target) {
         return Promise.resolve(false);
     }
+    if (target.dataset.loaded === 'true') return Promise.resolve(true);
 
     const status = document.createElement('div');
     status.className = 'fragment-status';
     status.setAttribute('role', 'status');
-    status.textContent = PAGE_LANGUAGE === 'en' ? 'Loading…' : '読み込み中…';
-    target.replaceChildren(status);
     target.setAttribute('aria-busy', 'true');
 
     const request = (async () => {
         try {
-            const response = await fetch(getFragmentPath(name));
-            if (!response.ok) {
-                throw new Error(`Failed to load ${name}: ${response.status}`);
-            }
-            target.innerHTML = await response.text();
+            const html = await requestFragment(name);
+            if (target.dataset.loaded === 'true') return true;
+            target.innerHTML = html;
             if (name === 'news' || name === 'publications') {
                 const entryClassName = name === 'news' ? 'news-entry' : 'publication-entry';
                 normalizeEntries(target, entryClassName);
                 assignEntryIds(target, entryClassName, name);
             }
+            target.dataset.loaded = 'true';
             return true;
         } catch (error) {
-            fragmentRequests.delete(tabName);
             console.error(`Error loading ${name}:`, error);
             status.textContent = PAGE_LANGUAGE === 'en'
                 ? 'Unable to load this content. '
@@ -185,7 +186,6 @@ const loadTab = (tabName) => {
             target.setAttribute('aria-busy', 'false');
         }
     })();
-    fragmentRequests.set(tabName, request);
     return request;
 };
 
@@ -206,18 +206,8 @@ async function openTab(evt, tabName, options = {}) {
         history.replaceState(null, '', `#${tabName.toLowerCase()}`);
     }
 
-    clearTimeout(loadingTimer);
-    navigationStatus.hidden = true;
-    if (!navigationStatus.isConnected) document.body.appendChild(navigationStatus);
-    loadingTimer = setTimeout(() => {
-        navigationStatus.textContent = PAGE_LANGUAGE === 'en' ? 'Loading…' : '読み込み中…';
-        navigationStatus.hidden = false;
-    }, 300);
-
     const loaded = await loadTab(tabName);
     if (version !== navigationVersion) return false;
-    clearTimeout(loadingTimer);
-    navigationStatus.hidden = true;
 
     document.querySelectorAll('.tabcontent').forEach((content) => {
         content.style.display = 'none';
@@ -298,7 +288,19 @@ const handleHashNavigation = async (behavior = 'instant') => {
 };
 
 const initializeTabs = () => {
-    void handleHashNavigation();
+    const initialNavigation = handleHashNavigation();
+    void initialNavigation.then(() => {
+        const prefetch = () => {
+            VALID_TABS.filter((name) => name !== 'home').forEach((name) => {
+                void requestFragment(name).catch(() => {});
+            });
+        };
+        if ('requestIdleCallback' in window) {
+            window.requestIdleCallback(prefetch, { timeout: 2000 });
+        } else {
+            setTimeout(prefetch, 0);
+        }
+    });
 };
 
 window.addEventListener('hashchange', () => {
